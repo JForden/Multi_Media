@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
       home: ChangeNotifierProvider<ValueNotifier<int>>.value(
         value: ValueNotifier<int>(
             0), //PageIndex is set to 0 to open first when when the app launches
@@ -54,9 +53,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Screen'),
-      ),
       body: _widgetOptions[Provider.of<ValueNotifier<int>>(context).value],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
