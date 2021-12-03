@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import "articles.dart"; //put your file here
+import "radio.dart"; //put your file here
 void main() => runApp(const MyApp());
 
 /// This is the main application widget.
@@ -30,28 +31,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Playlists',
-      style: optionStyle,
-    ),
-    Text(
-      'User Page',
-      style: optionStyle,
-    ),
-    Text(
-      'Music Page',
-      style: optionStyle,
-    ),
-    Text(
-      'News Page',
-      style: optionStyle,
-    ),
-  ];
+  final List<Widget> _widgetOptions = <Widget>[ //these are out of order but you get the idea
+    RadioPage(),
+    ArticlePage(),
+    RadioPage(),
+    ArticlePage(),
+    RadioPage(),
+     ];
 
   void _onItemTapped(int index) {
     setState(() {

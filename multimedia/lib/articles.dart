@@ -9,19 +9,6 @@ class _ArticlePageState extends State<ArticlePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.orange,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Icon(Icons.music_note),
-            Icon(Icons.radio),
-            Icon(Icons.home),
-            Icon(Icons.receipt),
-            Icon(Icons.portrait)
-          ],
-        ),
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
