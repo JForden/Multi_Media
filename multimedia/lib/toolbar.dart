@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import "articles.dart"; //put your file here
 import "radio.dart"; //put your file here
+import "profile.dart";
+
 void main() => runApp(const MyApp());
 
 /// This is the main application widget.
@@ -31,14 +33,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  final List<Widget> _widgetOptions = <Widget>[ //these are out of order but you get the idea
+  final List<Widget> _widgetOptions = <Widget>[
+    //these are out of order but you get the idea
     ArticlePage(), //this should be playlists
     RadioPage(),
     RadioPage(), //this should be home
-    ArticlePage(), 
-    RadioPage(), //this should be user/donations
-
-     ];
+    ArticlePage(),
+    ProfilePage(), //this should be user/donations
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -59,24 +61,24 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.list),
             label: 'Playlists',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_sharp),
-            label: 'User',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.library_music),
             label: 'Music',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.new_releases_rounded),
             label: 'News',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_sharp),
+            label: 'User',
           ),
         ],
         currentIndex: _selectedIndex,
