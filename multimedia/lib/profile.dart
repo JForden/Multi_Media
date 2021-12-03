@@ -1,46 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'articles.dart';
+import 'toolbar.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({Key? key}) : super(key: key);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    Container _buildBigButton(Color color, IconData icon, String text) {
-      return Container(
-          width: 150,
-          height: 150,
-          decoration: BoxDecoration(
-              color: Colors.amber, borderRadius: BorderRadius.circular(16)),
-          padding: EdgeInsets.all(0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, color: color, size: 64),
-              Container(
-                constraints: BoxConstraints(minWidth: 110, maxWidth: 110),
-                margin: const EdgeInsets.only(top: 8),
-                child: Text(
-                  text,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                  ),
-                  softWrap: true,
-                ),
-              )
-            ],
-          ));
+    InkWell _buildBigButton(Color color, IconData icon, String text) {
+      return InkWell(
+          onTap: () {
+            Provider.of<ValueNotifier<int>>(context, listen: false).value = 1;
+          },
+          child: Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                  color: Colors.amber, borderRadius: BorderRadius.circular(16)),
+              padding: EdgeInsets.all(0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(icon, color: color, size: 64),
+                  Container(
+                    constraints: BoxConstraints(minWidth: 110, maxWidth: 110),
+                    margin: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      text,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: color,
+                      ),
+                      softWrap: true,
+                    ),
+                  )
+                ],
+              )));
     }
 
-    Padding _buildBigRows(Container button1, Container button2) {
-      return Padding(
-          padding: EdgeInsets.all(8),
+    Container _buildBigRows(InkWell button1, InkWell button2) {
+      return Container(
+          width: 428,
+          padding: EdgeInsets.all(16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
