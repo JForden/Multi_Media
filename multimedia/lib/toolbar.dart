@@ -32,11 +32,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final List<Widget> _widgetOptions = <Widget>[ //these are out of order but you get the idea
+    ArticlePage(), //this should be playlists
     RadioPage(),
-    ArticlePage(),
-    RadioPage(),
-    ArticlePage(),
-    RadioPage(),
+    RadioPage(), //this should be home
+    ArticlePage(), 
+    RadioPage(), //this should be user/donations
+
      ];
 
   void _onItemTapped(int index) {
