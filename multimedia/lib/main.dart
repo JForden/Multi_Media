@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'wp_api.dart';
 import "articles.dart";
 
 void main() => runApp(MyApp());
