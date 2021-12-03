@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: ChangeNotifierProvider<ValueNotifier<int>>.value(
+        //Provider allows you to open pages without using the toolbar w/o messing anything up
         value: ValueNotifier<int>(
             0), //PageIndex is set to 0 to open first when when the app launches
         child: MyStatefulWidget(),
@@ -38,22 +39,23 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final List<Widget> _widgetOptions = [
-    //these are out of order but you get the idea
-    ArticlePage(), //this should be playlists
-    RadioPage(),
-    RadioPage(), //this should be home
     ArticlePage(),
-    ProfilePage(), //this should be user/donations
+    RadioPage(),
+    RadioPage(),
+    ArticlePage(),
+    ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
+    //Changed this to work with Provider
     Provider.of<ValueNotifier<int>>(context, listen: false).value = index;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _widgetOptions[Provider.of<ValueNotifier<int>>(context).value],
+      body: _widgetOptions[Provider.of<ValueNotifier<int>>(context)
+          .value], //Changed this to work with Provider
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
@@ -78,7 +80,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             label: 'User',
           ),
         ],
-        currentIndex: Provider.of<ValueNotifier<int>>(context).value,
+        currentIndex: Provider.of<ValueNotifier<int>>(context)
+            .value, //Changed this to work with Provider
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
