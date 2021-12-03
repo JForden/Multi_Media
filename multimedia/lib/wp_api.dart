@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<List> getData() async {
-  String url = "https://radiomilwaukee.org/wp-json/wp/v2/story?_embed";
+  String url =
+      "https://radiomilwaukee.org/wp-json/wp/v2/story?_embed&per_page=30";
   final response = await http.get(Uri.parse(url), headers: {
     'Accept': 'application/json',
   });

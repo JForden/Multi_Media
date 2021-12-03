@@ -17,14 +17,13 @@ class _ArticlePageState extends State<ArticlePage> {
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               var itemCount = snapshot.data.length;
-              print(" This is the Item Count");
-              print(itemCount);
               return ListView.builder(
                   itemCount: itemCount,
                   itemBuilder: (context, index) {
                     String title1 = snapshot.data[index]['title']['rendered']
                         .replaceAll('&#8216;', '\'')
                         .replaceAll('&#8217;', '\'')
+                        .replaceAll('&#8212;', '-')
                         .replaceAll('&#038;', '&');
                     return ListTile(
                       title: Text(
@@ -34,8 +33,10 @@ class _ArticlePageState extends State<ArticlePage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      subtitle: Image.network(snapshot.data[index]['_embedded']
-                          ['wp:featuredmedia'][0]['source_url']),
+                      subtitle: FadeInImage.assetNetwork(
+                          placeholder: 'assets/images/loading.gif',
+                          image: snapshot.data[index]['_embedded']
+                              ['wp:featuredmedia'][0]['source_url']),
                     );
                   });
             } else {
