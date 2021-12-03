@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import "articles.dart"; //put your file here
 import "radio.dart"; //put your file here
 import "profile.dart";
@@ -13,9 +14,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: _title,
-      home: MyStatefulWidget(),
+      home: ChangeNotifierProvider<ValueNotifier<int>>.value(
+        value: ValueNotifier<int>(
+            0), //PageIndex is set to 0 to open first when when the app launches
+        child: MyStatefulWidget(),
+      ),
     );
   }
 }
@@ -33,7 +38,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  final List<Widget> _widgetOptions = <Widget>[
+  final List<Widget> _widgetOptions = [
     //these are out of order but you get the idea
     ArticlePage(), //this should be playlists
     RadioPage(),
@@ -43,9 +48,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    Provider.of<ValueNotifier<int>>(context, listen: false).value = index;
   }
 
   @override
@@ -54,9 +57,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       appBar: AppBar(
         title: const Text('Home Screen'),
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: _widgetOptions[Provider.of<ValueNotifier<int>>(context).value],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
@@ -81,7 +82,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             label: 'User',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: Provider.of<ValueNotifier<int>>(context).value,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
