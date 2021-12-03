@@ -16,6 +16,7 @@ class MyStatefulWidget extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    //Builds clickable big buttons
     InkWell _buildBigButton(Color color, IconData icon, String text) {
       return InkWell(
           onTap: () {
@@ -51,6 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
               )));
     }
 
+    //Builds clickable settings button
     InkWell _buildSettingsButton(Color color, IconData icon) {
       return InkWell(
           onTap: () {
@@ -63,6 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Icon(icon, color: color, size: 32)));
     }
 
+    //Builds Profile title, extra width used to push settings button to the right
     Container _buildProfileTitle(Color color) {
       return Container(
         width: 400,
@@ -78,6 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
+    //Puts big buttons into rows
     Container _buildBigRows(InkWell button1, InkWell button2) {
       return Container(
           width: 428,
@@ -92,12 +96,13 @@ class _ProfilePageState extends State<ProfilePage> {
           ));
     }
 
+    //88Nine Brown (tm)
     Color color = Color.fromARGB(255, 71, 57, 45);
 
     Widget topBar = Padding(
       padding: EdgeInsets.all(32),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           _buildProfileTitle(color),
           _buildSettingsButton(color, Icons.settings)
