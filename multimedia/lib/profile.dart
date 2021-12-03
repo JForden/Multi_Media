@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'articles.dart';
-import 'toolbar.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -21,7 +19,8 @@ class _ProfilePageState extends State<ProfilePage> {
     InkWell _buildBigButton(Color color, IconData icon, String text) {
       return InkWell(
           onTap: () {
-            Provider.of<ValueNotifier<int>>(context, listen: false).value = 1;
+            Provider.of<ValueNotifier<int>>(context, listen: false).value =
+                1; //This is a test case
           },
           child: Container(
               width: 150,
@@ -52,6 +51,33 @@ class _ProfilePageState extends State<ProfilePage> {
               )));
     }
 
+    InkWell _buildSettingsButton(Color color, IconData icon) {
+      return InkWell(
+          onTap: () {
+            Provider.of<ValueNotifier<int>>(context, listen: false).value =
+                1; //This is a test case
+          },
+          child: Container(
+              width: 32,
+              height: 32,
+              child: Icon(icon, color: color, size: 32)));
+    }
+
+    Container _buildProfileTitle(Color color) {
+      return Container(
+        width: 400,
+        child: Text(
+          'Profile',
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
+      );
+    }
+
     Container _buildBigRows(InkWell button1, InkWell button2) {
       return Container(
           width: 428,
@@ -68,11 +94,14 @@ class _ProfilePageState extends State<ProfilePage> {
 
     Color color = Color.fromARGB(255, 71, 57, 45);
 
-    Widget topBar = const Padding(
+    Widget topBar = Padding(
       padding: EdgeInsets.all(32),
-      child: Text(
-        'Profile    Settings!',
-        softWrap: true,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _buildProfileTitle(color),
+          _buildSettingsButton(color, Icons.settings)
+        ],
       ),
     );
 
