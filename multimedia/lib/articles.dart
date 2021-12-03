@@ -17,14 +17,22 @@ class _ArticlePageState extends State<ArticlePage> {
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               var itemCount = snapshot.data.length;
-
               print(" This is the Item Count");
               print(itemCount);
               return ListView.builder(
                   itemCount: itemCount,
                   itemBuilder: (context, index) {
+                    String title1 = snapshot.data[index]['title']['rendered']
+                        .replaceAll('&#8216;', '\'')
+                        .replaceAll('&#8217;', '\'');
                     return ListTile(
-                      title: Text(snapshot.data[index]['title']['rendered']),
+                      title: Text(
+                        title1,
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       subtitle: Image.network(snapshot.data[index]['_embedded']
                           ['wp:featuredmedia'][0]['source_url']),
                     );
