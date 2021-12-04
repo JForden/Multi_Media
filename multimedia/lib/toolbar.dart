@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'playlists.dart';
 import "articles.dart"; //put your file here
 import "radio.dart"; //put your file here
 import "profile.dart";
@@ -39,7 +40,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final List<Widget> _widgetOptions = [
-    ArticlePage(),
+    PlaylistPage(),
     RadioPage(),
     RadioPage(),
     ArticlePage(),
