@@ -34,9 +34,13 @@ class _ArticlePageState extends State<ArticlePage> {
                         ),
                       ),
                       subtitle: FadeInImage.assetNetwork(
-                          placeholder: 'assets/images/loading.gif',
-                          image: snapshot.data[index]['_embedded']
-                              ['wp:featuredmedia'][0]['source_url']),
+                        image: snapshot.data[index]['_embedded']
+                            ['wp:featuredmedia'][0]['source_url'],
+                        placeholder: 'assets/images/loading.gif',
+                        imageErrorBuilder: (context, error, stackTrace) {
+                          return Image.asset('assets/images/loading.gif');
+                        },
+                      ),
                     );
                   });
             } else {
