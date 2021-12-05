@@ -24,12 +24,15 @@ class SongInfo {
 
 class _PlaylistPageState extends State<PlaylistPage> {
   final ScrollController _scrollController = ScrollController();
-  List<String> items = [];
+  final TextEditingController _searchTextController = TextEditingController();
   List<SongInfo> songInfoList = [];
+  List<SongInfo> searchResults = [];
   bool loading = false;
   bool allLoaded = false;
   bool isHover = false;
+  bool typing = false;
   String previousDJ = "None";
+  String filter = "";
 
   mockFetch() async {
     if (allLoaded) {
@@ -54,9 +57,9 @@ class _PlaylistPageState extends State<PlaylistPage> {
       for (int i = 0; i < initialData.length; i++) {
         if (previousDJ != "None" && previousDJ != initialData[i].dj) {
           songInfoList.add(SongInfo(
-              songName: "None",
-              artistName: "None",
-              albumName: "None",
+              songName: "",
+              artistName: "",
+              albumName: "",
               dj: initialData[i].dj));
         }
         songInfoList.add(initialData[i]);
@@ -73,6 +76,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
   void initState() {
     super.initState();
     mockFetch();
+    _searchTextController.addListener(() {
+      filter = _searchTextController.text;
+      setState(() {});
+    });
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
               _scrollController.position.maxScrollExtent &&
@@ -98,24 +105,27 @@ class _PlaylistPageState extends State<PlaylistPage> {
     final String formattedDate =
         monthFormatter.format(time) + ' ' + dayFormatter.format(time);
 
-    return Scaffold(
-      // appBar: AppBar(
-      //     centerTitle: true,
-      //     title: const Text("Example DJ" " ON AIR"),
-      //     backgroundColor: const Color.fromARGB(212, 92, 71, 49)),
-
-      body: LayoutBuilder(builder: (context, constraints) {
-        if (songInfoList.isNotEmpty) {
-          return Column(children: [
-            Container(
-              height: 50,
-              color: const Color.fromARGB(212, 92, 71, 49),
-              width: constraints.maxWidth,
-              child: Row(children: [
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+    if (songInfoList.isNotEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: typing
+              ? TextField(
+                  style: const TextStyle(color: Colors.black),
+                  controller: _searchTextController,
+                  decoration: const InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black, width: 1)),
+                    hintText: "Search",
+                  ),
+                  onChanged: onSearchTextChanged,
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
                       const Text(
                         'ON AIR:',
                         style: TextStyle(
@@ -123,153 +133,267 @@ class _PlaylistPageState extends State<PlaylistPage> {
                           color: Colors.white,
                         ),
                       ),
-                      Row(children: [
-                        const CircleAvatar(
-                          radius: 9.0,
-                          backgroundImage:
-                              AssetImage('assets/images/loading.gif'),
-                          backgroundColor: Colors.transparent,
-                        ),
-                        Text(
-                          ' ' + songInfoList[0].dj,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ]),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const CircleAvatar(
+                              radius: 9.0,
+                              backgroundImage:
+                                  AssetImage('assets/images/loading.gif'),
+                              backgroundColor: Colors.transparent,
+                            ),
+                            Text(
+                              ' ' + songInfoList[0].dj,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ]),
                     ]),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      Icon(
-                        Icons.search,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        'Search',
-                        style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  onTap: () =>
-                      launch('https://www.youtube.com/watch?v=dQw4w9WgXcQ'),
-                ),
-              ], mainAxisAlignment: MainAxisAlignment.spaceEvenly),
-            ),
+          backgroundColor: const Color.fromARGB(212, 92, 71, 49),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    typing = !typing;
+                  });
+                },
+                icon: Icon(typing ? Icons.done : Icons.search))
+          ],
+        ),
+        body: LayoutBuilder(builder: (context, constraints) {
+          return Column(children: [
             Expanded(
                 child: Stack(children: [
-              ListView.builder(
-                  //the entire scrollable section
-                  controller: _scrollController,
-                  itemBuilder: (context, index) {
-                    return Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey)),
-                        child: songInfoList[index].songName == "None"
-                            ? Container(
-                                height: 50,
-                                color: const Color.fromARGB(212, 92, 71, 49),
-                                width: constraints.maxWidth,
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      const CircleAvatar(
-                                        radius: 9.0,
-                                        backgroundImage: AssetImage(
-                                            'assets/images/loading.gif'),
-                                        backgroundColor: Colors.transparent,
-                                      ),
-                                      Text(
-                                        ' ' + songInfoList[index].dj,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ]),
-                              )
-                            : ListTile(
-                                //where each row is made
-                                leading: Image.asset(
-                                  'assets/images/loading.gif',
-                                ),
-                                title: Text(songInfoList[index].songName),
-                                subtitle: Text(songInfoList[index].artistName +
-                                    " - " +
-                                    songInfoList[index].albumName),
-                                trailing: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      InkWell(
-                                          hoverColor: Colors.white,
-                                          child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const [
-                                                CircleAvatar(
-                                                  radius: 7.0,
-                                                  backgroundImage: AssetImage(
-                                                      'images/spotify.png'),
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                ),
-                                                Text(" Spotify",
-                                                    style: TextStyle(
-                                                      height: 1.1,
-                                                      fontSize: 14,
-                                                    ))
-                                              ]),
-                                          onTap: () => launch(
-                                              'https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT?si=6eb186f21dd749bd')),
-                                      InkWell(
-                                          hoverColor: Colors.white,
-                                          child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Image.asset(
-                                                  'images/apple.png',
-                                                  width: 14,
-                                                  height: 14,
-                                                ),
-                                                const Text(" Itunes",
-                                                    style: TextStyle(
-                                                        height: 1.1,
-                                                        fontSize: 14)),
-                                              ]),
-                                          onTap: () => launch(
-                                              'https://music.apple.com/us/album/never-gonna-give-you-up/1558533900?i=1558534271')),
-                                      InkWell(
-                                          hoverColor: Colors.white,
-                                          child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const [
-                                                CircleAvatar(
-                                                  radius: 8.0,
-                                                  backgroundImage: AssetImage(
-                                                      'images/amazon.jpg'),
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                ),
-                                                Text(" Amazon",
-                                                    style: TextStyle(
-                                                        height: 1.1,
-                                                        fontSize: 14)),
-                                              ]),
-                                          onTap: () => launch(
-                                              'https://www.amazon.com/Never-Gonna-Give-You-Up/dp/B07X66DCLM/ref=sr_1_1?crid=32G0JAXOGTXGR&keywords=never+gonna+give+you+up+rick+astley&qid=1638585041&s=dmusic&sprefix=never+gonn%2Cdigital-music%2C189&sr=1-1')),
-                                    ]),
-                              ));
-                  },
-                  itemCount: songInfoList.length),
+              searchResults.isNotEmpty || _searchTextController.text.isNotEmpty
+                  ? ListView.builder(
+                      //the entire scrollable section
+                      controller: _scrollController,
+                      itemBuilder: (context, index) {
+                        return Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey)),
+                            child: searchResults[index].songName == ""
+                                ? Container(
+                                    height: 50,
+                                    color:
+                                        const Color.fromARGB(212, 92, 71, 49),
+                                    width: constraints.maxWidth,
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          const CircleAvatar(
+                                            radius: 9.0,
+                                            backgroundImage: AssetImage(
+                                                'assets/images/loading.gif'),
+                                            backgroundColor: Colors.transparent,
+                                          ),
+                                          Text(
+                                            ' ' + searchResults[index].dj,
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ]),
+                                  )
+                                : ListTile(
+                                    //where each row is made
+                                    leading: Image.asset(
+                                      'assets/images/loading.gif',
+                                    ),
+                                    title: Text(searchResults[index].songName),
+                                    subtitle: Text(
+                                        searchResults[index].artistName +
+                                            " - " +
+                                            searchResults[index].albumName),
+                                    trailing: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          InkWell(
+                                              hoverColor: Colors.white,
+                                              child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: const [
+                                                    CircleAvatar(
+                                                      radius: 7.0,
+                                                      backgroundImage: AssetImage(
+                                                          'images/spotify.png'),
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                    ),
+                                                    Text(" Spotify",
+                                                        style: TextStyle(
+                                                          height: 1.1,
+                                                          fontSize: 14,
+                                                        ))
+                                                  ]),
+                                              onTap: () => launch(
+                                                  'https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT?si=6eb186f21dd749bd')),
+                                          InkWell(
+                                              hoverColor: Colors.white,
+                                              child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Image.asset(
+                                                      'images/apple.png',
+                                                      width: 14,
+                                                      height: 14,
+                                                    ),
+                                                    const Text(" Itunes",
+                                                        style: TextStyle(
+                                                            height: 1.1,
+                                                            fontSize: 14)),
+                                                  ]),
+                                              onTap: () => launch(
+                                                  'https://music.apple.com/us/album/never-gonna-give-you-up/1558533900?i=1558534271')),
+                                          InkWell(
+                                              hoverColor: Colors.white,
+                                              child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: const [
+                                                    CircleAvatar(
+                                                      radius: 8.0,
+                                                      backgroundImage: AssetImage(
+                                                          'images/amazon.jpg'),
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                    ),
+                                                    Text(" Amazon",
+                                                        style: TextStyle(
+                                                            height: 1.1,
+                                                            fontSize: 14)),
+                                                  ]),
+                                              onTap: () => launch(
+                                                  'https://www.amazon.com/Never-Gonna-Give-You-Up/dp/B07X66DCLM/ref=sr_1_1?crid=32G0JAXOGTXGR&keywords=never+gonna+give+you+up+rick+astley&qid=1638585041&s=dmusic&sprefix=never+gonn%2Cdigital-music%2C189&sr=1-1')),
+                                        ]),
+                                  ));
+                      },
+                      itemCount: searchResults.length)
+                  : ListView.builder(
+                      //the entire scrollable section
+                      controller: _scrollController,
+                      itemBuilder: (context, index) {
+                        return Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey)),
+                            child: songInfoList[index].songName == ""
+                                ? Container(
+                                    height: 50,
+                                    color:
+                                        const Color.fromARGB(212, 92, 71, 49),
+                                    width: constraints.maxWidth,
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          const CircleAvatar(
+                                            radius: 9.0,
+                                            backgroundImage: AssetImage(
+                                                'assets/images/loading.gif'),
+                                            backgroundColor: Colors.transparent,
+                                          ),
+                                          Text(
+                                            ' ' + songInfoList[index].dj,
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ]),
+                                  )
+                                : ListTile(
+                                    //where each row is made
+                                    leading: Image.asset(
+                                      'assets/images/loading.gif',
+                                    ),
+                                    title: Text(songInfoList[index].songName),
+                                    subtitle: Text(
+                                        songInfoList[index].artistName +
+                                            " - " +
+                                            songInfoList[index].albumName),
+                                    trailing: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          InkWell(
+                                              hoverColor: Colors.white,
+                                              child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: const [
+                                                    CircleAvatar(
+                                                      radius: 7.0,
+                                                      backgroundImage: AssetImage(
+                                                          'images/spotify.png'),
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                    ),
+                                                    Text(" Spotify",
+                                                        style: TextStyle(
+                                                          height: 1.1,
+                                                          fontSize: 14,
+                                                        ))
+                                                  ]),
+                                              onTap: () => launch(
+                                                  'https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT?si=6eb186f21dd749bd')),
+                                          InkWell(
+                                              hoverColor: Colors.white,
+                                              child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Image.asset(
+                                                      'images/apple.png',
+                                                      width: 14,
+                                                      height: 14,
+                                                    ),
+                                                    const Text(" Itunes",
+                                                        style: TextStyle(
+                                                            height: 1.1,
+                                                            fontSize: 14)),
+                                                  ]),
+                                              onTap: () => launch(
+                                                  'https://music.apple.com/us/album/never-gonna-give-you-up/1558533900?i=1558534271')),
+                                          InkWell(
+                                              hoverColor: Colors.white,
+                                              child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: const [
+                                                    CircleAvatar(
+                                                      radius: 8.0,
+                                                      backgroundImage: AssetImage(
+                                                          'images/amazon.jpg'),
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                    ),
+                                                    Text(" Amazon",
+                                                        style: TextStyle(
+                                                            height: 1.1,
+                                                            fontSize: 14)),
+                                                  ]),
+                                              onTap: () => launch(
+                                                  'https://www.amazon.com/Never-Gonna-Give-You-Up/dp/B07X66DCLM/ref=sr_1_1?crid=32G0JAXOGTXGR&keywords=never+gonna+give+you+up+rick+astley&qid=1638585041&s=dmusic&sprefix=never+gonn%2Cdigital-music%2C189&sr=1-1')),
+                                        ]),
+                                  ));
+                      },
+                      itemCount: songInfoList.length),
               if (loading) ...[
                 Positioned(
                     left: 0,
@@ -284,14 +408,45 @@ class _PlaylistPageState extends State<PlaylistPage> {
               ]
             ]))
           ]);
-        } else {
-          return Container(
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      }),
-    );
+        }),
+      );
+    } else {
+      return Container(
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+  }
+
+  onSearchTextChanged(String text) async {
+    searchResults.clear();
+    if (text.isEmpty) {
+      setState(() {});
+      return;
+    }
+
+    songInfoList.forEach((songDetail) {
+      if (songDetail.songName.contains(text) ||
+          songDetail.artistName.contains(text) ||
+          songDetail.songName == "") {
+        searchResults.add(songDetail);
+      }
+    });
+
+    print(searchResults.length);
+    for (int i = 0; i < searchResults.length - 1; i++) {
+      while (searchResults[i].songName == searchResults[i + 1].songName &&
+          searchResults[i].songName == "") {
+        searchResults.removeAt(i);
+        print(searchResults.length);
+      }
+    }
+
+    if (searchResults[searchResults.length - 1].songName == "") {
+      searchResults.removeAt(searchResults.length - 1);
+    }
+
+    setState(() {});
   }
 }
