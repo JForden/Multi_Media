@@ -224,7 +224,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                                                     CircleAvatar(
                                                       radius: 7.0,
                                                       backgroundImage: AssetImage(
-                                                          'images/spotify.png'),
+                                                          'assets/images/spotify.png'),
                                                       backgroundColor:
                                                           Colors.transparent,
                                                     ),
@@ -243,7 +243,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                                                       MainAxisSize.min,
                                                   children: [
                                                     Image.asset(
-                                                      'images/apple.png',
+                                                      'assets/images/apple.png',
                                                       width: 14,
                                                       height: 14,
                                                     ),
@@ -263,7 +263,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                                                     CircleAvatar(
                                                       radius: 8.0,
                                                       backgroundImage: AssetImage(
-                                                          'images/amazon.jpg'),
+                                                          'assets/images/amazon.jpg'),
                                                       backgroundColor:
                                                           Colors.transparent,
                                                     ),
@@ -337,7 +337,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                                                     CircleAvatar(
                                                       radius: 7.0,
                                                       backgroundImage: AssetImage(
-                                                          'images/spotify.png'),
+                                                          'assets/images/spotify.png'),
                                                       backgroundColor:
                                                           Colors.transparent,
                                                     ),
@@ -354,9 +354,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
                                               child: Row(
                                                   mainAxisSize:
                                                       MainAxisSize.min,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: [
                                                     Image.asset(
-                                                      'images/apple.png',
+                                                      'assets/images/apple.png',
                                                       width: 14,
                                                       height: 14,
                                                     ),
@@ -376,7 +377,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                                                     CircleAvatar(
                                                       radius: 8.0,
                                                       backgroundImage: AssetImage(
-                                                          'images/amazon.jpg'),
+                                                          'assets/images/amazon.jpg'),
                                                       backgroundColor:
                                                           Colors.transparent,
                                                     ),
