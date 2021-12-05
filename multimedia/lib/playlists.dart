@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PlaylistPage extends StatefulWidget {
@@ -24,7 +23,7 @@ class SongInfo {
 
 class _PlaylistPageState extends State<PlaylistPage> {
   final ScrollController _scrollController = ScrollController();
-  final TextEditingController _searchTextController = TextEditingController();
+  final _searchTextController = TextEditingController();
   List<SongInfo> songInfoList = [];
   List<SongInfo> searchResults = [];
   bool loading = false;
@@ -97,31 +96,29 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime time = DateTime.now();
-    final DateFormat timeFormatter = DateFormat('jm');
-    final DateFormat monthFormatter = DateFormat('LLLL');
-    final DateFormat dayFormatter = DateFormat('d');
-    final String formattedTime = timeFormatter.format(time);
-    final String formattedDate =
-        monthFormatter.format(time) + ' ' + dayFormatter.format(time);
-
     if (songInfoList.isNotEmpty) {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: typing
-              ? TextField(
-                  style: const TextStyle(color: Colors.black),
-                  controller: _searchTextController,
-                  decoration: const InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black, width: 1)),
-                    hintText: "Search",
-                  ),
-                  onChanged: onSearchTextChanged,
-                )
+              ? SizedBox(
+                  width: 500,
+                  child: TextField(
+                    style: const TextStyle(color: Colors.black),
+                    controller: _searchTextController,
+                    decoration: InputDecoration(
+                      fillColor: Colors.white,
+                      filled: true,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide:
+                              const BorderSide(color: Colors.black, width: 1)),
+                      hintText: "Search",
+                      suffixIcon: IconButton(
+                          onPressed: clearText, icon: const Icon(Icons.clear)),
+                    ),
+                    onChanged: onSearchTextChanged,
+                  ))
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -398,7 +395,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                 Positioned(
                     left: 0,
                     bottom: 0,
-                    child: Container(
+                    child: SizedBox(
                       width: constraints.maxWidth,
                       height: 80,
                       child: const Center(
@@ -411,10 +408,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
         }),
       );
     } else {
-      return Container(
-        child: const Center(
-          child: CircularProgressIndicator(),
-        ),
+      return const Center(
+        child: CircularProgressIndicator(),
       );
     }
   }
@@ -426,20 +421,22 @@ class _PlaylistPageState extends State<PlaylistPage> {
       return;
     }
 
-    songInfoList.forEach((songDetail) {
-      if (songDetail.songName.contains(text) ||
-          songDetail.artistName.contains(text) ||
+    for (SongInfo songDetail in songInfoList) {
+      if (songDetail.songName.toLowerCase().contains(text.toLowerCase()) ||
+          songDetail.artistName.toLowerCase().contains(text.toLowerCase()) ||
           songDetail.songName == "") {
         searchResults.add(songDetail);
       }
-    });
+    }
 
-    print(searchResults.length);
     for (int i = 0; i < searchResults.length - 1; i++) {
-      while (searchResults[i].songName == searchResults[i + 1].songName &&
+      while (searchResults.length > 1 &&
+          searchResults[i].songName == searchResults[i + 1].songName &&
           searchResults[i].songName == "") {
         searchResults.removeAt(i);
-        print(searchResults.length);
+        if (i == searchResults.length - 1) {
+          break;
+        }
       }
     }
 
@@ -448,5 +445,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
     }
 
     setState(() {});
+  }
+
+  void clearText() {
+    _searchTextController.clear();
+    onSearchTextChanged("");
   }
 }
