@@ -4,6 +4,7 @@ import 'playlists.dart';
 import "articles.dart"; //put your file here
 import "radio.dart"; //put your file here
 import "profile.dart";
+import "home.dart";
 
 void main() => runApp(const MyApp());
 
@@ -45,6 +46,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     RadioPage(),
     ArticlePage(),
     ProfilePage(),
+    HomePage(),
   ];
 
   void _onItemTapped(int index) {
