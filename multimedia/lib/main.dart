@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       home: ChangeNotifierProvider<ValueNotifier<int>>.value(
         //Changed this to work with Provider
         value: ValueNotifier<int>(
-            0), //PageIndex is set to 0 to open first when when the app launches
+            2), //PageIndex is set to 0 to open first when when the app launches
         child: MyStatefulWidget(), //put your class here
       ),
     );

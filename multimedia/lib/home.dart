@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//literally just a copy of articles page for now, but i deleted the pics so you can tell the difference
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
