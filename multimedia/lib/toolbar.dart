@@ -43,10 +43,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final List<Widget> _widgetOptions = [
     PlaylistPage(),
     RadioPage(),
-    RadioPage(),
+    HomePage(),
     ArticlePage(),
     ProfilePage(),
-    HomePage(),
+    
   ];
 
   void _onItemTapped(int index) {
