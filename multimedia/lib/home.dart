@@ -12,9 +12,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-      theme: new ThemeData(scaffoldBackgroundColor: const Color(0xFFFFFF)),
       title: 'Home',
       home: Scaffold(
+        backgroundColor: Color(0xffffffff),
         appBar: AppBar(
           title: const Text('Home'),
         ),
@@ -22,62 +22,49 @@ class _HomePageState extends State<HomePage> {
           children: [
             Image.asset(
               'images/logo.jpg',
-              width: 200,
-              height: 200,
+              width: 250,
+              height: 250,
             ),
-            midSection,
-            textSection,
+            mainSection
           ],
         ),
       ),
     );
   }
-  Widget midSection = Row(
+}
+
+Widget mainSection = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Container(
-              alignment: Alignment.center,
-              child: 
-              FlatButton(
+        Column(
+          children: [
+            FlatButton(
                 child: Image.asset('images/newspaper.jpg',
-                width: 200,
-                height: 200,),
+                width: 150,
+                height: 150,),
                 onPressed: () {},
               ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: 
-              FlatButton(
+              const Text('Featured Article'),
+               FlatButton(
+                child: 
+                Text('Read more...',
+                style: const TextStyle(fontStyle: FontStyle.italic),
+                ),
+                onPressed: () {},
+              ),
+
+          ],
+        ),
+        Column(
+          children: [
+            FlatButton(
                 child: Image.asset('images/podcast.jpg',
-                width: 200,
-                height: 200,),
+                width: 150,
+                height: 150,),
                 onPressed: () {},
               ),
-            ),
-            
+              const Text('Featured Podcast'),
+          ],
+        ),
       ],
     );
-
-    Widget textSection = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Container(
-              alignment: Alignment.center,
-              child: 
-             Text(
-                "Featured Article",
-                textAlign: TextAlign.center,
-               ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: 
-               Text(
-                "Featured Podcast",
-                textAlign: TextAlign.center,
-               ),
-            ),  
-            ],
-    );
-}
