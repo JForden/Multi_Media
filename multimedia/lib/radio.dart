@@ -71,7 +71,7 @@ class _RadioPageState extends State<RadioPage> {
         body: ListView(
           children: [
             Image.asset(
-              'images/loading.gif',
+              'assets/images/loading.gif',
               width: 200,
               height: 200,
             ),
