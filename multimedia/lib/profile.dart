@@ -24,8 +24,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 1; //This is a test case
           },
           child: Container(
-              width: 150,
-              height: 150,
+              width: 132,
+              height: 132,
               decoration: BoxDecoration(
                   color: Colors.amber, borderRadius: BorderRadius.circular(16)),
               padding: EdgeInsets.all(0),
@@ -60,15 +60,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 1; //This is a test case
           },
           child: Container(
-              width: 32,
-              height: 32,
+              width: 24,
+              height: 24,
               child: Icon(icon, color: color, size: 32)));
     }
 
     //Builds Profile title, extra width used to push settings button to the right
     Container _buildProfileTitle(Color color) {
       return Container(
-        width: 400,
+        width: 300,
         child: Text(
           'Profile',
           textAlign: TextAlign.left,
@@ -84,8 +84,8 @@ class _ProfilePageState extends State<ProfilePage> {
     //Puts big buttons into rows
     Container _buildBigRows(InkWell button1, InkWell button2) {
       return Container(
-          width: 428,
-          padding: EdgeInsets.all(16),
+          width: 400,
+          padding: EdgeInsets.all(8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
