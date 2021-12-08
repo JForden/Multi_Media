@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
         body: ListView(
           children: [
             Image.asset(
-              'images/logo.jpg',
+              'assets/images/logo.jpg',
               width: 250,
               height: 250,
             ),
