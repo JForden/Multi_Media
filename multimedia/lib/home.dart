@@ -15,9 +15,6 @@ class _HomePageState extends State<HomePage> {
       title: 'Home',
       home: Scaffold(
         backgroundColor: Color(0xffffffff),
-        appBar: AppBar(
-          title: const Text('Home'),
-        ),
         body: ListView(
           children: [
             Image.asset(
@@ -39,7 +36,7 @@ Widget mainSection = Row(
         Column(
           children: [
             FlatButton(
-                child: Image.asset('images/newspaper.jpg',
+                child: Image.asset('assets/images/newspaper.jpg',
                 width: 150,
                 height: 150,),
                 onPressed: () {},
@@ -58,12 +55,19 @@ Widget mainSection = Row(
         Column(
           children: [
             FlatButton(
-                child: Image.asset('images/podcast.jpg',
+                child: Image.asset('assets/images/podcast.jpg',
                 width: 150,
                 height: 150,),
                 onPressed: () {},
               ),
               const Text('Featured Podcast'),
+               FlatButton(
+                child: 
+                Text('View all...',
+                style: const TextStyle(fontStyle: FontStyle.italic),
+                ),
+                onPressed: () {},
+              ),
           ],
         ),
       ],

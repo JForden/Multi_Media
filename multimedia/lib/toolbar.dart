@@ -46,7 +46,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     HomePage(),
     ArticlePage(),
     ProfilePage(),
-    
   ];
 
   void _onItemTapped(int index) {

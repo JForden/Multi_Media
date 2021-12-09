@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'donate.dart';
+import 'help.dart';
+import 'shop.dart';
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -16,38 +20,44 @@ class MyStatefulWidget extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
+
     //Builds clickable big buttons
-    InkWell _buildBigButton(Color color, IconData icon, String text) {
+    InkWell _buildBigButton(
+        Color color, IconData icon, String text, Widget page) {
       return InkWell(
           onTap: () {
-            Provider.of<ValueNotifier<int>>(context, listen: false).value =
-                1; //This is a test case
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => page),
+            );
+            //Provider.of<ValueNotifier<int>>(context, listen: false).value =
+            //    1; //This is a test case
           },
           child: Container(
-              width: 150,
-              height: 150,
+              width: deviceWidth * 0.9,
+              height: deviceHeight * 0.1,
               decoration: BoxDecoration(
                   color: Colors.amber, borderRadius: BorderRadius.circular(16)),
-              padding: EdgeInsets.all(0),
-              child: Column(
+              padding: EdgeInsets.only(left: 8, right: 8),
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(icon, color: color, size: 64),
-                  Container(
-                    constraints: BoxConstraints(minWidth: 110, maxWidth: 110),
-                    margin: const EdgeInsets.only(top: 8),
+                  Icon(icon, color: color, size: deviceHeight * 0.08),
+                  Padding(
+                    padding: EdgeInsets.only(left: 8),
                     child: Text(
                       text,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: deviceHeight * 0.035,
                         fontWeight: FontWeight.bold,
                         color: color,
                       ),
-                      softWrap: true,
                     ),
-                  )
+                  ),
                 ],
               )));
     }
@@ -60,49 +70,34 @@ class _ProfilePageState extends State<ProfilePage> {
                 1; //This is a test case
           },
           child: Container(
-              width: 32,
-              height: 32,
-              child: Icon(icon, color: color, size: 32)));
+              width: deviceHeight * 0.045,
+              height: deviceHeight * 0.045,
+              child: Icon(icon, color: color, size: deviceHeight * 0.045)));
     }
 
     //Builds Profile title, extra width used to push settings button to the right
-    Container _buildProfileTitle(Color color) {
-      return Container(
-        width: 400,
-        child: Text(
-          'Profile',
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
+    Text _buildProfileTitle(Color color) {
+      return Text(
+        'Profile',
+        textAlign: TextAlign.left,
+        style: TextStyle(
+          fontSize: deviceHeight * 0.035,
+          fontWeight: FontWeight.bold,
+          color: color,
         ),
       );
-    }
-
-    //Puts big buttons into rows
-    Container _buildBigRows(InkWell button1, InkWell button2) {
-      return Container(
-          width: 428,
-          padding: EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              button1,
-              button2,
-            ],
-          ));
     }
 
     //88Nine Brown (tm)
     Color color = Color.fromARGB(255, 71, 57, 45);
 
-    Widget topBar = Padding(
-      padding: EdgeInsets.all(32),
+    Widget topBar = Container(
+      width: deviceWidth * 0.9,
+      height: deviceHeight * 0.1,
+      padding:
+          EdgeInsets.only(left: deviceWidth * .05, right: deviceWidth * .05),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _buildProfileTitle(color),
           _buildSettingsButton(color, Icons.settings)
@@ -110,15 +105,17 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
 
-    Widget bigButtons = Padding(
-        padding: EdgeInsets.all(32),
+    Widget bigButtons = Container(
+        width: deviceWidth,
+        height: deviceHeight * 0.45,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _buildBigRows(_buildBigButton(color, Icons.star, 'Donate'),
-                _buildBigButton(color, Icons.star, 'Become a Member')),
-            _buildBigRows(_buildBigButton(color, Icons.shopping_bag, 'Shop'),
-                _buildBigButton(color, Icons.help, 'Help')),
+            _buildBigButton(color, Icons.star, 'Donate', DonatePage()),
+            _buildBigButton(color, Icons.star, 'Become a Member', DonatePage()),
+            _buildBigButton(color, Icons.shopping_bag, 'Shop', ShopPage()),
+            _buildBigButton(color, Icons.help, 'Help', HelpPage()),
           ],
         ));
 
