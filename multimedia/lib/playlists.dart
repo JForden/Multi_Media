@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PlaylistPage extends StatefulWidget {
@@ -35,6 +36,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
   bool typing = false;
   String previousDJ = "None";
   String filter = "";
+  DateFormat formatter = DateFormat('jm');
+  DateTime time = DateTime.now();
 
 //Gets all the values that would be displayed
 //Will be changed once we connect to the API
@@ -207,9 +210,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
       ListTile _infoRow(List<SongInfo> songList, int index) {
         return ListTile(
           //album cover of song
-          leading: Image.asset(
-            'assets/images/loading.gif',
-          ),
+          leading: Text(formatter.format(time)),
           title: Text(songList[index].songName),
           subtitle: Text(
               songList[index].artistName + " - " + songList[index].albumName),
