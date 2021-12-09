@@ -63,11 +63,8 @@ class _RadioPageState extends State<RadioPage> {
     );
 
     return MaterialApp(
-      title: 'Flutter layout demo',
+      title: 'Radio Page',
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Flutter layout demo'),
-        ),
         body: ListView(
           children: [
             Image.asset(
