@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'donate.dart';
+import 'help.dart';
+import 'shop.dart';
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -20,11 +24,16 @@ class _ProfilePageState extends State<ProfilePage> {
     double deviceHeight = MediaQuery.of(context).size.height;
 
     //Builds clickable big buttons
-    InkWell _buildBigButton(Color color, IconData icon, String text) {
+    InkWell _buildBigButton(
+        Color color, IconData icon, String text, Widget page) {
       return InkWell(
           onTap: () {
-            Provider.of<ValueNotifier<int>>(context, listen: false).value =
-                1; //This is a test case
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => page),
+            );
+            //Provider.of<ValueNotifier<int>>(context, listen: false).value =
+            //    1; //This is a test case
           },
           child: Container(
               width: deviceWidth * 0.9,
@@ -103,10 +112,10 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _buildBigButton(color, Icons.star, 'Donate'),
-            _buildBigButton(color, Icons.star, 'Become a Member'),
-            _buildBigButton(color, Icons.shopping_bag, 'Shop'),
-            _buildBigButton(color, Icons.help, 'Help'),
+            _buildBigButton(color, Icons.star, 'Donate', DonatePage()),
+            _buildBigButton(color, Icons.star, 'Become a Member', DonatePage()),
+            _buildBigButton(color, Icons.shopping_bag, 'Shop', ShopPage()),
+            _buildBigButton(color, Icons.help, 'Help', HelpPage()),
           ],
         ));
 
