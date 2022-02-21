@@ -93,8 +93,24 @@ class ExtractArticleData extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     final title = args['title'];
     final content = args['content'];
-    print(title);
-    print(content);
+    //loop through content and print out the html tags.
+    //print(title);
+    //print(content);
+    String content1 = "";
+    if (content != null) {
+      debugPrint(content);
+      content1 = content
+          .replaceAll('SUPPORTER', '')
+          .replaceAll('<div class="ad-left">', "")
+          .replaceAll("<div class=\"wp-block-custom-ads google-ads-two-up\">",
+              "replace")
+          .replaceAll("<div class=\"google-ad\">", "replace");
+    }
+    debugPrint("HERERERERERERERERERERERERERERERE");
+    debugPrint(content1);
+    //print("here");
+    //print(content1);
+    //print(content1.toString());
     return Scaffold(
         appBar: AppBar(),
         body: Container(
@@ -109,7 +125,12 @@ class ExtractArticleData extends StatelessWidget {
                 ),
               ),
               Html(
-                data: content,
+                data: content1,
+                style: {
+                  'h1': Style(color: Colors.red),
+                  'p': Style(color: Colors.black87, fontSize: FontSize.medium),
+                  'ul': Style(margin: const EdgeInsets.symmetric(vertical: 20))
+                },
               ),
             ],
           ),
