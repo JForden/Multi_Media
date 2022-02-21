@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "toolbar.dart"; //put your file here
+import "articles.dart";
 
 void main() => runApp(MyApp());
 
@@ -8,6 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        ExtractArticleData.routeName: (context) => const ExtractArticleData(),
+      },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
