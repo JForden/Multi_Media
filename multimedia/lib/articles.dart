@@ -98,13 +98,15 @@ class ExtractArticleData extends StatelessWidget {
     //print(content);
     String content1 = "";
     if (content != null) {
-      debugPrint(content);
+      //debugPrint(content);
       content1 = content
           .replaceAll('SUPPORTER', '')
           .replaceAll('<div class="ad-left">', "")
-          .replaceAll("<div class=\"wp-block-custom-ads google-ads-two-up\">",
-              "replace")
-          .replaceAll("<div class=\"google-ad\">", "replace");
+          .replaceAll("<div class=\"wp-block-custom-ads google-ads-two-up\">", "")
+          .replaceAll("<iframe class=\"dfpAdLoader\" scrolling=\"no\" seamless=\"seamless\" src=\"/dfp-basic-ad-loader.php?slot=/118058336/Story-BB-Left&amp;width=300&amp;height=250\">", "")
+          .replaceAll("<div class\"ad-right\">", "replace2")
+          .replaceAll("<iframe class=\"dfpAdLoader\" scrolling=\"no\" seamless=\"seamless\" src=\"/dfp-basic-ad-loader.php?slot=/118058336/Story-BB-Right&amp;width=300&amp;height=250\">", "")
+          .replaceAll("<div class=\"google-ad\">", "");
     }
     debugPrint("HERERERERERERERERERERERERERERERE");
     debugPrint(content1);
