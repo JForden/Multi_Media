@@ -49,6 +49,8 @@ class _ArticlePageState extends State<ArticlePage> {
                         ),
                       ),
                       //the subtitle grabs the photo url from the list and displays it.
+                      //possible issue: the photo url is not being displayed?
+                      //'package:flutter/src/widgets/fade_in_image.dart': Failed assertion: line 228 pos 15: 'image != null': is not true.
                       subtitle: FadeInImage.assetNetwork(
                         image: snapshot.data[index]['_embedded']
                             ['wp:featuredmedia'][0]['source_url'],
@@ -102,10 +104,15 @@ class ExtractArticleData extends StatelessWidget {
       content1 = content
           .replaceAll('SUPPORTER', '')
           .replaceAll('<div class="ad-left">', "")
-          .replaceAll("<div class=\"wp-block-custom-ads google-ads-two-up\">", "")
-          .replaceAll("<iframe class=\"dfpAdLoader\" scrolling=\"no\" seamless=\"seamless\" src=\"/dfp-basic-ad-loader.php?slot=/118058336/Story-BB-Left&amp;width=300&amp;height=250\">", "")
+          .replaceAll(
+              "<div class=\"wp-block-custom-ads google-ads-two-up\">", "")
+          .replaceAll(
+              "<iframe class=\"dfpAdLoader\" scrolling=\"no\" seamless=\"seamless\" src=\"/dfp-basic-ad-loader.php?slot=/118058336/Story-BB-Left&amp;width=300&amp;height=250\">",
+              "")
           .replaceAll("<div class\"ad-right\">", "replace2")
-          .replaceAll("<iframe class=\"dfpAdLoader\" scrolling=\"no\" seamless=\"seamless\" src=\"/dfp-basic-ad-loader.php?slot=/118058336/Story-BB-Right&amp;width=300&amp;height=250\">", "")
+          .replaceAll(
+              "<iframe class=\"dfpAdLoader\" scrolling=\"no\" seamless=\"seamless\" src=\"/dfp-basic-ad-loader.php?slot=/118058336/Story-BB-Right&amp;width=300&amp;height=250\">",
+              "")
           .replaceAll("<div class=\"google-ad\">", "");
     }
     debugPrint("HERERERERERERERERERERERERERERERE");
