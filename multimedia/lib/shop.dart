@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ShopPage extends StatefulWidget {
   @override
@@ -54,20 +55,28 @@ class _ShopPageState extends State<ShopPage> {
       ),
     );
 
+    InkWell _shopPageLink(String name, String link) {
+      return InkWell(
+          hoverColor: Colors.white,
+          child: Row(mainAxisSize: MainAxisSize.max, children: [
+            Text(
+              name,
+              style: TextStyle(
+                  color: color, fontSize: 24, fontWeight: FontWeight.w600),
+            )
+          ]),
+          onTap: () => launch(link));
+    }
+
     Widget textBox = Container(
       height: deviceHeight * 0.7,
       padding: EdgeInsets.only(left: deviceWidth * .1, right: deviceWidth * .1),
-      child: Text(
-        'Lots of really really long text,' +
-            'Lots of really really long text,' +
-            'Lots of really really long text,' +
-            'Lots of really really long text,' +
-            'Lots of really really long text,' +
-            'Lots of really really long text,' +
-            'Lots of really really long text,' +
-            'Lots of really really long text,' +
-            'Lots of really really long text,',
-        style: TextStyle(color: color, fontSize: 12),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _shopPageLink("Shop", "https://radiomilwaukee.org/shop/"),
+        ],
       ),
     );
 

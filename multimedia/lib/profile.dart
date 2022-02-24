@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'donate.dart';
 import 'help.dart';
 import 'shop.dart';
+import 'settings.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -63,11 +64,13 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     //Builds clickable settings button
-    InkWell _buildSettingsButton(Color color, IconData icon) {
+    InkWell _buildSettingsButton(Color color, IconData icon, Widget page) {
       return InkWell(
           onTap: () {
-            Provider.of<ValueNotifier<int>>(context, listen: false).value =
-                1; //This is a test case
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => page),
+            );
           },
           child: Container(
               width: deviceHeight * 0.045,
@@ -100,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _buildProfileTitle(color),
-          _buildSettingsButton(color, Icons.settings)
+          _buildSettingsButton(color, Icons.settings, SettingsPage())
         ],
       ),
     );
@@ -112,8 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _buildBigButton(color, Icons.star, 'Donate', DonatePage()),
-            _buildBigButton(color, Icons.star, 'Become a Member', DonatePage()),
+            _buildBigButton(color, Icons.star, 'Support Us', DonatePage()),
             _buildBigButton(color, Icons.shopping_bag, 'Shop', ShopPage()),
             _buildBigButton(color, Icons.help, 'Help', HelpPage()),
           ],
