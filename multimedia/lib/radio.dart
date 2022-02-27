@@ -78,6 +78,7 @@ class _RadioPageState extends State<RadioPage> {
           ],
         ),
       ),
+    debugShowCheckedModeBanner: false
     );
   }
 

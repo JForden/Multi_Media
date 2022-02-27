@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -26,6 +25,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+    debugShowCheckedModeBanner: false
     );
   }
 }
