@@ -8,6 +8,9 @@ class ArticlePage extends StatefulWidget {
 }
 
 class _ArticlePageState extends State<ArticlePage> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,32 +18,46 @@ class _ArticlePageState extends State<ArticlePage> {
         child: FutureBuilder(
           future: getData(),
           builder: (context, AsyncSnapshot snapshot) {
+
             //calls the getData function from the WpApi class and returns a list of articles.
             if (snapshot.hasData) {
+
               //if the list has data, it will return a listview of articles.
               var itemCount = snapshot.data.length;
+              String image_URL= "assets/images/apple.png";
               return ListView.builder(
                   itemCount: itemCount,
                   itemBuilder: (context, index) {
                     // Since the titles use a version of html, we need to parse it and replace some html tags with their respective strings in order to display the title correctly.
                     String art_data =
                         snapshot.data[index]['content']['rendered'];
+
+                   
+                    if(snapshot.data[index]['_embedded']['wp:featuredmedia'] != null){
+                      image_URL= snapshot.data[index]['_embedded']
+                      ['wp:featuredmedia'][0]['source_url'];
+                    }
+
                     String title1 = snapshot.data[index]['title']['rendered']
                         .replaceAll('&#8216;', '\'')
                         .replaceAll('&#8217;', '\'')
                         .replaceAll('&#8212;', '-')
                         .replaceAll('&#038;', '&');
                     return ListTile(
+
                       onTap: () {
                         //when the user taps on an article, it will open a new page with the article's content.
+
                         Navigator.pushNamed(
                             context, ExtractArticleData.routeName,
                             arguments: {
                               'title': title1.toString(),
                               'content': art_data.toString(),
                             });
-                      },
+                      }
+                      ,
                       //returns a list tile with the title formmatted.
+
                       title: Text(
                         title1,
                         style: TextStyle(
@@ -48,16 +65,14 @@ class _ArticlePageState extends State<ArticlePage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      //the subtitle grabs the photo url from the list and displays it.
-                      //possible issue: the photo url is not being displayed?
-                      //'package:flutter/src/widgets/fade_in_image.dart': Failed assertion: line 228 pos 15: 'image != null': is not true.
+
+
                       subtitle: FadeInImage.assetNetwork(
-                        image: snapshot.data[index]['_embedded']
-                            ['wp:featuredmedia'][0]['source_url'],
+                        image: image_URL,
                         placeholder: 'assets/images/loading.gif',
                         imageErrorBuilder: (context, error, stackTrace) {
                           //if the image fails to load, it will display a placeholder image.
-                          return Image.asset('assets/images/loading.gif');
+                          return Image.asset(image_URL);
                         },
                       ),
                     );
@@ -100,7 +115,7 @@ class ExtractArticleData extends StatelessWidget {
     //print(content);
     String content1 = "";
     if (content != null) {
-      //debugPrint(content);
+      
       content1 = content
           .replaceAll('SUPPORTER', '')
           .replaceAll('<div class="ad-left">', "")
@@ -115,8 +130,7 @@ class ExtractArticleData extends StatelessWidget {
               "")
           .replaceAll("<div class=\"google-ad\">", "");
     }
-    debugPrint("HERERERERERERERERERERERERERERERE");
-    debugPrint(content1);
+    
     //print("here");
     //print(content1);
     //print(content1.toString());
