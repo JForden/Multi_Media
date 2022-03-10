@@ -8,20 +8,29 @@
             "name": "multimedia",
             "cwd": "multimedia",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                    "--no-sound-null-safety"
+            ]
         },
         {
             "name": "multimedia (profile mode)",
             "cwd": "multimedia",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "args": [
+                "--no-sound-null-safety"
+            ]
         },
         {
             "name": "Android",
             "request": "launch",
             "type": "dart",
-            "deviceId": "emulator-5554"
+            "deviceId": "emulator-5554",
+            "args": [
+                "--no-sound-null-safety"
+            ]
         }
     ]
 }
