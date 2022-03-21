@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 class PlaylistPage extends StatefulWidget {
   const PlaylistPage({Key? key}) : super(key: key);
@@ -10,19 +12,36 @@ class PlaylistPage extends StatefulWidget {
   _PlaylistPageState createState() => _PlaylistPageState();
 }
 
-//SongInfo class may be added to in the future
-//I just assumed some values we would be getting from the API
 class SongInfo {
   String songName;
   String artistName;
   String albumName;
-  String dj;
+  String dj = "Example DJ";
+  int lastPlayed;
 
   SongInfo(
-      {required this.songName,
-      required this.artistName,
-      required this.albumName,
-      required this.dj});
+      {
+        required this.songName,
+        required this.artistName,
+        required this.albumName,
+        required this.dj,
+        required this.lastPlayed
+      }
+  );
+}
+
+class Songs {
+  List<dynamic> songs;
+
+  Songs(
+    {
+      required this.songs
+    }
+  );
+
+  factory Songs.fromJson(Map<String, dynamic> json) {
+    return Songs(songs: json['songs']);
+  }
 }
 
 class _PlaylistPageState extends State<PlaylistPage> {
@@ -30,76 +49,45 @@ class _PlaylistPageState extends State<PlaylistPage> {
   final _searchTextController = TextEditingController();
   List<SongInfo> songInfoList = [];
   List<SongInfo> searchResults = [];
-  bool loading = false;
+  late Future<Songs> futureSongs;
+  List<dynamic> songInfoListFuture = [];
   bool allLoaded = false;
   bool isHover = false;
   bool typing = false;
   String previousDJ = "None";
   String filter = "";
   DateFormat formatter = DateFormat('jm');
-  DateTime time = DateTime.now();
 
-//Gets all the values that would be displayed
-//Will be changed once we connect to the API
-  mockFetch() async {
-    if (allLoaded) {
-      return;
-    }
-    setState(() {
-      loading = true;
-    });
-    //simulates a delay when getting data
-    await Future.delayed(const Duration(milliseconds: 500));
-    //generates 60 items to put in the songList
-    //only puts 20 items in initially until the bottom of the screen is reached
-    List<SongInfo> initialData = songInfoList.length >= 60
-        ? []
-        : List.generate(
-            20,
-            (index) => SongInfo(
-                songName: "Interesting Song #${index + songInfoList.length}",
-                artistName: "Example Artist",
-                albumName: "Example Album Name",
-                dj: "Example DJ"));
-    if (initialData.isNotEmpty) {
-      initialData[10].dj = "That Other DJ";
-      initialData[10].songName = "That Other Interesting Song";
-      //When a different DJ starts playing, a break will be put in the list with the DJs name and icon
-      for (int i = 0; i < initialData.length; i++) {
-        if (previousDJ != "None" && previousDJ != initialData[i].dj) {
-          songInfoList.add(SongInfo(
-              //A SongInfo with null info is used for the break
-              songName: "",
-              artistName: "",
-              albumName: "",
-              dj: initialData[i].dj));
-        }
-        songInfoList.add(initialData[i]);
-        previousDJ = initialData[i].dj;
-      }
-    }
-    setState(() {
-      loading = false;
-      allLoaded = initialData.isEmpty;
-    });
+  Future<Songs> fetchSongs() async {
+
+  final response = await http
+      .get(Uri.parse('https://radio-mke-playlist-updater.herokuapp.com/playlist-history'));
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return Songs.fromJson(jsonDecode(response.body) as Map<String,dynamic>);
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load songs');
   }
+}
 
   @override
   void initState() {
     super.initState();
-    mockFetch();
+    futureSongs = fetchSongs();
+
+    futureSongs.whenComplete(() {
+      allLoaded = true;
+      setState(() {});
+    });
+
     //sets up the search bar
     _searchTextController.addListener(() {
       filter = _searchTextController.text;
       setState(() {});
-    });
-    //checks that the user has reached the end of the list and will fetch more data
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-              _scrollController.position.maxScrollExtent &&
-          !loading) {
-        mockFetch();
-      }
     });
   }
 
@@ -111,7 +99,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (songInfoList.isNotEmpty) {
+    if (allLoaded) {
       //Widget used for appBase with the search bar
       Widget appBarSearch = SizedBox(
           width: 500,
@@ -146,15 +134,16 @@ class _PlaylistPageState extends State<PlaylistPage> {
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const CircleAvatar(
+                children: const [
+                  CircleAvatar(
                     radius: 9.0,
                     backgroundImage: AssetImage('assets/images/loading.gif'),
                     backgroundColor: Colors.transparent,
                   ),
                   Text(
-                    ' ' + songInfoList[0].dj,
-                    style: const TextStyle(
+                    //need input from api
+                    "Test DJ",
+                    style: TextStyle(
                       fontSize: 16,
                       color: Colors.white,
                     ),
@@ -210,7 +199,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
       ListTile _infoRow(List<SongInfo> songList, int index) {
         return ListTile(
           //album cover of song
-          leading: Text(formatter.format(time)),
+          leading: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [ Text(formatter.format(DateTime.fromMillisecondsSinceEpoch(songList[index].lastPlayed * 1000))),
+            ]),
           title: Text(songList[index].songName),
           subtitle: Text(
               songList[index].artistName + " - " + songList[index].albumName),
@@ -260,36 +252,41 @@ class _PlaylistPageState extends State<PlaylistPage> {
                 }),
           ],
         ),
-        body: LayoutBuilder(builder: (context, constraints) {
-          return Column(children: [
-            Expanded(
-                child: Stack(children: [
-              searchResults.isNotEmpty || _searchTextController.text.isNotEmpty
-                  ? _songList(searchResults)
-                  : _songList(songInfoList),
-              if (loading) ...[
-                Positioned(
-                    left: 0,
-                    bottom: 0,
-                    child: SizedBox(
-                      width: constraints.maxWidth,
-                      height: 80,
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    ))
-              ]
-            ]))
-          ]);
-        }),
+        body: Center (
+          child: FutureBuilder<Songs>(
+          future: futureSongs,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              songInfoListFuture = snapshot.data!.songs;
+              for (int i = 0; i < songInfoListFuture.length; i++){
+                SongInfo convertedInfo = SongInfo(songName: songInfoListFuture[i]['title'], artistName: songInfoListFuture[i]['artist'], albumName: songInfoListFuture[i]['album'], dj: "Example DJ", lastPlayed: songInfoListFuture[i]['last_played_timestamp']);
+                songInfoList.add(convertedInfo);
+              }
+              return Column(children: [
+                Expanded(
+                  child: Stack(children: [
+                    searchResults.isNotEmpty || _searchTextController.text.isNotEmpty
+                    ? _songList(searchResults)
+                    : _songList(songInfoList),
+                  ])
+                )
+              ]);
+            }
+            else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          })
+        ),
       );
     }
-    //when app is loading initially, a progress indicator will display
-    else {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
+
+    // when app is loading initially, a progress indicator will display
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
   }
 
   //logic for search bar
@@ -301,17 +298,18 @@ class _PlaylistPageState extends State<PlaylistPage> {
     }
 
     for (SongInfo songDetail in songInfoList) {
-      if (songDetail.songName.toLowerCase().contains(text.toLowerCase()) ||
-          songDetail.artistName.toLowerCase().contains(text.toLowerCase()) ||
-          songDetail.songName == "") {
-        searchResults.add(songDetail);
+      if (text.length <= songDetail.songName.length || text.length <= songDetail.artistName.length) {
+        if (songDetail.songName.toLowerCase().contains(text.toLowerCase()) ||
+            songDetail.artistName.toLowerCase().contains(text.toLowerCase()) ||
+            songDetail.songName == "") {
+          searchResults.add(songDetail);
+        }
       }
     }
 
     for (int i = 0; i < searchResults.length - 1; i++) {
       while (searchResults.length > 1 &&
-          searchResults[i].songName == searchResults[i + 1].songName &&
-          searchResults[i].songName == "") {
+          searchResults[i].songName == searchResults[i + 1].songName) {
         searchResults.removeAt(i);
         if (i == searchResults.length - 1) {
           break;
@@ -319,9 +317,22 @@ class _PlaylistPageState extends State<PlaylistPage> {
       }
     }
 
-    if (searchResults[searchResults.length - 1].songName == "") {
-      searchResults.removeAt(searchResults.length - 1);
-    }
+    // may need to be added back once dj breaks are re-implemented
+    //
+    // for (int i = 0; i < searchResults.length - 1; i++) {
+    //   while (searchResults.length > 1 &&
+    //       searchResults[i].songName == searchResults[i + 1].songName &&
+    //       searchResults[i].songName == "") {
+    //     searchResults.removeAt(i);
+    //     if (i == searchResults.length - 1) {
+    //       break;
+    //     }
+    //   }
+    // }
+    //
+    // if (searchResults[searchResults.length - 1].songName == "") {
+    //   searchResults.removeAt(searchResults.length - 1);
+    // }
 
     setState(() {});
   }
