@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'donate.dart';
 import 'help.dart';
@@ -63,6 +64,37 @@ class _ProfilePageState extends State<ProfilePage> {
               )));
     }
 
+    InkWell _buildLinkButton(
+        Color color, IconData icon, String text, String link) {
+      return InkWell(
+          onTap: () => launch(link),
+          child: Container(
+              width: deviceWidth * 0.9,
+              height: deviceHeight * 0.1,
+              decoration: BoxDecoration(
+                  color: Colors.amber, borderRadius: BorderRadius.circular(16)),
+              padding: EdgeInsets.only(left: 8, right: 8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(icon, color: color, size: deviceHeight * 0.08),
+                  Padding(
+                    padding: EdgeInsets.only(left: 8),
+                    child: Text(
+                      text,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: deviceHeight * 0.035,
+                        fontWeight: FontWeight.bold,
+                        color: color,
+                      ),
+                    ),
+                  ),
+                ],
+              )));
+    }
+
     //Builds clickable settings button
     InkWell _buildSettingsButton(Color color, IconData icon, Widget page) {
       return InkWell(
@@ -84,8 +116,9 @@ class _ProfilePageState extends State<ProfilePage> {
         'Profile',
         textAlign: TextAlign.left,
         style: TextStyle(
-          fontSize: deviceHeight * 0.035,
+          fontSize: deviceHeight * 0.06,
           fontWeight: FontWeight.bold,
+          fontFamily: "Helvetica",
           color: color,
         ),
       );
@@ -115,8 +148,10 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _buildBigButton(color, Icons.star, 'Support Us', DonatePage()),
-            _buildBigButton(color, Icons.shopping_bag, 'Shop', ShopPage()),
+            _buildLinkButton(color, Icons.star, 'Support Us',
+                "https://radiomilwaukee.org/support-us/membership/"),
+            _buildLinkButton(color, Icons.shopping_bag, 'Shop',
+                "https://radiomilwaukee.org/shop/"),
             _buildBigButton(color, Icons.help, 'Help', HelpPage()),
           ],
         ));
