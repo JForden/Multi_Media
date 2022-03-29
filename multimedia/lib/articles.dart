@@ -120,8 +120,6 @@ class ExtractArticleData extends StatelessWidget {
               "")
           .replaceAll("<div class=\"google-ad\">", "");
     }
-    print(content1);
-
     //print("here");
     //print(content1);
     //print(content1.toString());
