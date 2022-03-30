@@ -8,9 +8,6 @@ class ArticlePage extends StatefulWidget {
 }
 
 class _ArticlePageState extends State<ArticlePage> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,13 +15,11 @@ class _ArticlePageState extends State<ArticlePage> {
         child: FutureBuilder(
           future: getData(),
           builder: (context, AsyncSnapshot snapshot) {
-
             //calls the getData function from the WpApi class and returns a list of articles.
             if (snapshot.hasData) {
-
               //if the list has data, it will return a listview of articles.
               var itemCount = snapshot.data.length;
-              String image_URL= "assets/images/apple.png";
+              String image_URL = "assets/images/apple.png";
               return ListView.builder(
                   itemCount: itemCount,
                   itemBuilder: (context, index) {
@@ -32,10 +27,10 @@ class _ArticlePageState extends State<ArticlePage> {
                     String art_data =
                         snapshot.data[index]['content']['rendered'];
 
-                   
-                    if(snapshot.data[index]['_embedded']['wp:featuredmedia'] != null){
-                      image_URL= snapshot.data[index]['_embedded']
-                      ['wp:featuredmedia'][0]['source_url'];
+                    if (snapshot.data[index]['_embedded']['wp:featuredmedia'] !=
+                        null) {
+                      image_URL = snapshot.data[index]['_embedded']
+                          ['wp:featuredmedia'][0]['source_url'];
                     }
 
                     String title1 = snapshot.data[index]['title']['rendered']
@@ -44,28 +39,24 @@ class _ArticlePageState extends State<ArticlePage> {
                         .replaceAll('&#8212;', '-')
                         .replaceAll('&#038;', '&');
                     return ListTile(
-
                       onTap: () {
                         //when the user taps on an article, it will open a new page with the article's content.
-
                         Navigator.pushNamed(
                             context, ExtractArticleData.routeName,
                             arguments: {
                               'title': title1.toString(),
                               'content': art_data.toString(),
                             });
-                      }
-                      ,
+                      },
                       //returns a list tile with the title formmatted.
 
                       title: Text(
-                        title1,
+                        '\n' + title1,
                         style: TextStyle(
-                          fontSize: 15.0,
+                          fontSize: 20.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
 
                       subtitle: FadeInImage.assetNetwork(
                         image: image_URL,
@@ -115,7 +106,6 @@ class ExtractArticleData extends StatelessWidget {
     //print(content);
     String content1 = "";
     if (content != null) {
-      
       content1 = content
           .replaceAll('SUPPORTER', '')
           .replaceAll('<div class="ad-left">', "")
@@ -130,7 +120,6 @@ class ExtractArticleData extends StatelessWidget {
               "")
           .replaceAll("<div class=\"google-ad\">", "");
     }
-    
     //print("here");
     //print(content1);
     //print(content1.toString());
@@ -142,17 +131,27 @@ class ExtractArticleData extends StatelessWidget {
             children: <Widget>[
               Text(
                 title.toString(),
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 30.0,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+              //add a thin bar between the title and the content.
+              Divider(
+                color: Colors.black,
+                thickness: 3.0,
+                indent: 20.0,
+                endIndent: 20.0,
               ),
               Html(
                 data: content1,
                 style: {
-                  'h1': Style(color: Colors.red),
-                  'p': Style(color: Colors.black87, fontSize: FontSize.medium),
-                  'ul': Style(margin: const EdgeInsets.symmetric(vertical: 20))
+                  'html': Style(textAlign: TextAlign.center),
+                  //'h1': Style(color: Colors.red),
+                  //'p': Style(color: Colors.black87, fontSize: FontSize.medium),
+                  //'body': Style(alignment: Alignment.center),
+                  //'ul': Style(margin: const EdgeInsets.symmetric(vertical: 20))
                 },
               ),
             ],
