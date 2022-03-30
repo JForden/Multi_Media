@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_radio_player/flutter_radio_player.dart';
+//import 'package:flutter_radio_player/flutter_radio_player.dart';
 
 class RadioPage extends StatefulWidget {
   @override
@@ -142,6 +142,7 @@ class _RadioPageState extends State<RadioPage> {
   InkWell _buildPlayButton(Color color, IconData icon, String text) {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
+    /*
     FlutterRadioPlayer newRadio = FlutterRadioPlayer();
     newRadio.init("Radio", "Live",
         "https://wyms.streamguys1.com/live?platform=88nine", "false");
@@ -150,6 +151,7 @@ class _RadioPageState extends State<RadioPage> {
     } else {
       newRadio.pause();
     }
+    */
     return InkWell(
         onTap: () {
           if (playing) {

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'donate.dart';
 import 'help.dart';
-import 'shop.dart';
 import 'settings.dart';
 
 class ProfilePage extends StatefulWidget {
