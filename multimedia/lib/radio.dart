@@ -64,10 +64,13 @@ class _RadioPageState extends State<RadioPage> {
         artistUrl =
             'https://open.spotify.com/artist/' + currentSong.artistSpotifyID;
       }
+
+      String? songID = currentSong.songSpotifyID;
       String songUrl = "";
-      if (currentSong.songSpotifyID != "") {
-        songUrl = 'https://open.spotify.com/track/' + currentSong.songSpotifyID;
+      if (songID != null) {
+        songUrl = "https://open.spotify.com/track/$songID";
       }
+
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -113,6 +116,8 @@ class _RadioPageState extends State<RadioPage> {
                           imageUrl: songInfoListFuture[0]['art_url'],
                           artistSpotifyID: songInfoListFuture[0]
                               ['artist_spotify_id'],
+                          songSpotifyID: songInfoListFuture[0]
+                              ['song_spotify_id'],
                         );
 
                         return ListView(

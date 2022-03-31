@@ -165,10 +165,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
       //creates the row that displays all the info of a song
       ListTile _infoRow(List<SongInfo> songList, int index) {
+        String? songID = songList[index].songSpotifyID;
         String songUrl = "";
-        if (songList[index].songSpotifyID != "") {
-          songUrl =
-              'https://open.spotify.com/track/' + songList[index].songSpotifyID;
+        if (songID != null) {
+          songUrl = "https://open.spotify.com/track/$songID";
         }
         return ListTile(
           //album cover of song
@@ -243,6 +243,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                         imageUrl: songInfoListFuture[i]['art_url'],
                         artistSpotifyID: songInfoListFuture[i]
                             ['artist_spotify_id'],
+                        songSpotifyID: songInfoListFuture[i]['song_spotify_id'],
                       );
                       songInfoList.add(convertedInfo);
                     }
