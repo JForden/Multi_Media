@@ -166,7 +166,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
       //creates the row that displays all the info of a song
       ListTile _infoRow(List<SongInfo> songList, int index) {
         String songUrl = "";
-        if (songList[index].songSpotifyID != null) {
+        if (songList[index].songSpotifyID != "") {
           songUrl =
               'https://open.spotify.com/track/' + songList[index].songSpotifyID;
         }
@@ -234,17 +234,16 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     songInfoListFuture = snapshot.data!.songs;
                     for (int i = 0; i < songInfoListFuture.length; i++) {
                       SongInfo convertedInfo = SongInfo(
-                          songName: songInfoListFuture[i]['title'],
-                          artistName: songInfoListFuture[i]['artist'],
-                          albumName: songInfoListFuture[i]['album'],
-                          dj: "Example DJ",
-                          lastPlayed: songInfoListFuture[i]
-                              ['last_played_timestamp'],
-                          imageUrl: songInfoListFuture[i]['art_url'],
-                          artistSpotifyID: songInfoListFuture[i]
-                              ['artist_spotify_id'],
-                          songSpotifyID: songInfoListFuture[i]
-                              ['song_spotify_id']);
+                        songName: songInfoListFuture[i]['title'],
+                        artistName: songInfoListFuture[i]['artist'],
+                        albumName: songInfoListFuture[i]['album'],
+                        dj: "Example DJ",
+                        lastPlayed: songInfoListFuture[i]
+                            ['last_played_timestamp'],
+                        imageUrl: songInfoListFuture[i]['art_url'],
+                        artistSpotifyID: songInfoListFuture[i]
+                            ['artist_spotify_id'],
+                      );
                       songInfoList.add(convertedInfo);
                     }
                     return Column(children: [

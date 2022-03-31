@@ -20,17 +20,18 @@ class SongInfo {
   int lastPlayed;
   String imageUrl;
   String artistSpotifyID;
-  String songSpotifyID;
+  String songSpotifyID = "6VPOVkex1tTqsMlMyH8Ebf";
 
-  SongInfo(
-      {required this.songName,
-      required this.artistName,
-      required this.albumName,
-      required this.dj,
-      required this.lastPlayed,
-      required this.imageUrl,
-      required this.artistSpotifyID,
-      required this.songSpotifyID});
+  SongInfo({
+    required this.songName,
+    required this.artistName,
+    required this.albumName,
+    required this.dj,
+    required this.lastPlayed,
+    required this.imageUrl,
+    required this.artistSpotifyID,
+    //required this.songSpotifyID
+  });
 }
 
 Future<Songs> fetchSongs() async {

@@ -60,12 +60,12 @@ class _RadioPageState extends State<RadioPage> {
 
     Widget buttonSection(SongInfo currentSong) {
       String artistUrl = "";
-      if (currentSong.artistSpotifyID != null) {
+      if (currentSong.artistSpotifyID != "") {
         artistUrl =
             'https://open.spotify.com/artist/' + currentSong.artistSpotifyID;
       }
       String songUrl = "";
-      if (currentSong.songSpotifyID != null) {
+      if (currentSong.songSpotifyID != "") {
         songUrl = 'https://open.spotify.com/track/' + currentSong.songSpotifyID;
       }
       return Row(
@@ -104,17 +104,16 @@ class _RadioPageState extends State<RadioPage> {
                       if (snapshot.hasData) {
                         List<dynamic> songInfoListFuture = snapshot.data!.songs;
                         SongInfo currentSong = SongInfo(
-                            songName: songInfoListFuture[0]['title'],
-                            artistName: songInfoListFuture[0]['artist'],
-                            albumName: songInfoListFuture[0]['album'],
-                            dj: "Example DJ",
-                            lastPlayed: songInfoListFuture[0]
-                                ['last_played_timestamp'],
-                            imageUrl: songInfoListFuture[0]['art_url'],
-                            artistSpotifyID: songInfoListFuture[0]
-                                ['artist_spotify_id'],
-                            songSpotifyID: songInfoListFuture[0]
-                                ['song_spotify_id']);
+                          songName: songInfoListFuture[0]['title'],
+                          artistName: songInfoListFuture[0]['artist'],
+                          albumName: songInfoListFuture[0]['album'],
+                          dj: "Example DJ",
+                          lastPlayed: songInfoListFuture[0]
+                              ['last_played_timestamp'],
+                          imageUrl: songInfoListFuture[0]['art_url'],
+                          artistSpotifyID: songInfoListFuture[0]
+                              ['artist_spotify_id'],
+                        );
 
                         return ListView(
                           children: [
