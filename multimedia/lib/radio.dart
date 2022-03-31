@@ -118,16 +118,21 @@ class _RadioPageState extends State<RadioPage> {
 
                         return ListView(
                           children: [
-                            FadeInImage.assetNetwork(
-                              image: currentSong.imageUrl,
-                              placeholder: 'assets/images/loading.gif',
-                              imageErrorBuilder: (context, error, stackTrace) {
-                                //if the image fails to load, it will display a placeholder image.
-                                return Image.asset(currentSong.imageUrl);
-                              },
-                              width: 200,
-                              height: 200,
-                            ),
+                            Padding(
+                                padding:
+                                    EdgeInsets.only(top: deviceHeight * 0.05),
+                                child: FadeInImage.assetNetwork(
+                                  image: currentSong.imageUrl,
+                                  placeholder: 'assets/images/loading.gif',
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    //if the image fails to load, it will display a placeholder image.
+                                    return Image.asset(
+                                        'assets/images/loading.gif');
+                                  },
+                                  width: 200,
+                                  height: 200,
+                                )),
                             titleSection(currentSong),
                             playButtonSection,
                             buttonSection(currentSong),
