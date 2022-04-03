@@ -29,17 +29,17 @@ class SongInfo {
         required this.lastPlayed,
         required this.spotifyID,
       }
-  );
+      );
 }
 
 class ItunesInfo {
   List<dynamic> results;
 
   ItunesInfo(
-    {
-      required this.results
-    }
-  );
+      {
+        required this.results
+      }
+      );
 
   factory ItunesInfo.fromJson(Map<String, dynamic> json) {
     return ItunesInfo(results: json['results']);
@@ -50,10 +50,10 @@ class Songs {
   List<dynamic> songs;
 
   Songs(
-    {
-      required this.songs
-    }
-  );
+      {
+        required this.songs
+      }
+      );
 
   factory Songs.fromJson(Map<String, dynamic> json) {
     return Songs(songs: json['songs']);
@@ -79,39 +79,39 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
   Future<Songs> fetchSongs() async {
 
-  final response = await http
-      .get(Uri.parse('https://radio-mke-playlist-updater.herokuapp.com/playlist-history'));
+    final response = await http
+        .get(Uri.parse('https://radio-mke-playlist-updater.herokuapp.com/playlist-history'));
 
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Songs.fromJson(jsonDecode(response.body) as Map<String,dynamic>);
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load songs');
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return Songs.fromJson(jsonDecode(response.body) as Map<String,dynamic>);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load songs');
+    }
   }
-}
 //https://itunes.apple.com/search?term=What%2C%20Me%20Worry%3F&entity=song
   Future<ItunesInfo> fetchItunesSongId(String songName, String artistName, String albumName) async {
 
     //print('https://itunes.apple.com/search?term=' + Uri.encodeComponent(songName + ' ' + artistName + ' ' + albumName) + '&entity=song');
 
-  final response = await http
-      .get(Uri.parse('https://itunes.apple.com/search?term=' + Uri.encodeFull(songName + ' ' + artistName + ' ' + albumName) + '&entity=song'));
+    final response = await http
+        .get(Uri.parse('https://itunes.apple.com/search?term=' + Uri.encodeFull(songName + ' ' + artistName + ' ' + albumName) + '&entity=song'));
 
-      //print(response.body.isEmpty);
+    //print(response.body.isEmpty);
 
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return ItunesInfo.fromJson(jsonDecode(response.body) as Map<String,dynamic>);
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load Itunes query');
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return ItunesInfo.fromJson(jsonDecode(response.body) as Map<String,dynamic>);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load Itunes query');
+    }
   }
-}
 
   @override
   void initState() {
@@ -219,36 +219,36 @@ class _PlaylistPageState extends State<PlaylistPage> {
       InkWell _musicPlayerLink(String logo, String name, String link, bool flag) {
         if (flag) {
           return InkWell(
-            hoverColor: Colors.white,
-            child: Row(mainAxisSize: MainAxisSize.min, children: [
-              Image.asset(
-                logo,
-                width: 12,
-                height: 12,
-              ),
-              Text(" " + name,
-                  style: const TextStyle(
-                    height: 1.1,
-                    fontSize: 14,
-                  ))
-            ]),
-            onTap: () => launch(link));
+              hoverColor: Colors.white,
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
+                Image.asset(
+                  logo,
+                  width: 12,
+                  height: 12,
+                ),
+                Text(" " + name,
+                    style: const TextStyle(
+                      height: 1.1,
+                      fontSize: 14,
+                    ))
+              ]),
+              onTap: () => launch(link));
         }
         else {
           return InkWell(
-            hoverColor: Colors.white,
-            child: Row(mainAxisSize: MainAxisSize.min, children: [
-              Image.asset(
-                logo,
-                width: 12,
-                height: 12,
-              ),
-              Text(" " + name,
-                  style: const TextStyle(
-                    height: 1.1,
-                    fontSize: 14,
-                  ))
-            ])
+              hoverColor: Colors.white,
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
+                Image.asset(
+                  logo,
+                  width: 12,
+                  height: 12,
+                ),
+                Text(" " + name,
+                    style: const TextStyle(
+                      height: 1.1,
+                      fontSize: 14,
+                    ))
+              ])
           );
         }
       }
@@ -259,9 +259,9 @@ class _PlaylistPageState extends State<PlaylistPage> {
         //futureItunesInfo.whenComplete(() {setState(() {});});
         return ListTile(
           leading: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [ Text(formatter.format(DateTime.fromMillisecondsSinceEpoch(songList[index].lastPlayed * 1000))),
-            ]),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [ Text(formatter.format(DateTime.fromMillisecondsSinceEpoch(songList[index].lastPlayed * 1000))),
+              ]),
           title: Text(songList[index].songName),
           subtitle: Text(
               songList[index].artistName + " - " + songList[index].albumName),
@@ -272,23 +272,23 @@ class _PlaylistPageState extends State<PlaylistPage> {
                 _musicPlayerLink('assets/images/spotify.png', "Spotify",
                     'https://open.spotify.com/track/' + songList[index].spotifyID, true),
                 FutureBuilder<ItunesInfo>(
-                  future: futureItunesInfo,
-                  builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    itunesSongInfoFuture = snapshot.data!.results;
-                    if (itunesSongInfoFuture.isNotEmpty) {
-                      for(int i = 0; i < itunesSongInfoFuture.length; i++) {
-                        if (itunesSongInfoFuture[i]["artistName"].toString().contains(songList[index].artistName) &&
-                            itunesSongInfoFuture[i]["collectionName"].toString().contains(songList[index].albumName) &&
-                            itunesSongInfoFuture[i]["trackName"].toString().contains(songList[index].songName)) {
-                          itunesUrl = itunesSongInfoFuture[i]["trackViewUrl"];
-                          return _musicPlayerLink('assets/images/apple.png', "Itunes", itunesUrl, true);
+                    future: futureItunesInfo,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        itunesSongInfoFuture = snapshot.data!.results;
+                        if (itunesSongInfoFuture.isNotEmpty) {
+                          for(int i = 0; i < itunesSongInfoFuture.length; i++) {
+                            if (itunesSongInfoFuture[i]["artistName"].toString().contains(songList[index].artistName) &&
+                                itunesSongInfoFuture[i]["collectionName"].toString().contains(songList[index].albumName) &&
+                                itunesSongInfoFuture[i]["trackName"].toString().contains(songList[index].songName)) {
+                              itunesUrl = itunesSongInfoFuture[i]["trackViewUrl"];
+                              return _musicPlayerLink('assets/images/apple.png', "Itunes", itunesUrl, true);
+                            }
+                          }
                         }
                       }
+                      return _musicPlayerLink('assets/images/apple.png', "Itunes", itunesUrl, false);
                     }
-                  }
-                  return _musicPlayerLink('assets/images/apple.png', "Itunes", itunesUrl, false);
-                  }
                 ),
                 _musicPlayerLink('assets/images/amazon.png', "Amazon",
                     'https://www.amazon.com/s?k=' + Uri.encodeFull(songList[index].songName + ' ' + songList[index].artistName) + '&i=digital-music&link_code=qs&tag=88ninradio-20', true)
@@ -299,12 +299,12 @@ class _PlaylistPageState extends State<PlaylistPage> {
       //builder of song list with dj breaks
       ListView _songList(List<SongInfo> songList) {
         return ListView.builder(
-            //the entire scrollable section
+          //the entire scrollable section
             controller: _scrollController,
             itemBuilder: (context, index) {
               return Container(
                   decoration:
-                      BoxDecoration(border: Border.all(color: Colors.grey)),
+                  BoxDecoration(border: Border.all(color: Colors.grey)),
                   child: songList[index].songName == ""
                       ? _previousDJRow(songList[index].dj)
                       : _infoRow(songList, index));
@@ -329,38 +329,38 @@ class _PlaylistPageState extends State<PlaylistPage> {
           ],
         ),
         body: Center (
-          child: FutureBuilder<Songs>(
-          future: futureSongs,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              songInfoListFuture = snapshot.data!.songs;
-              for (int i = 0; i < songInfoListFuture.length; i++){
-                SongInfo convertedInfo;
-                if (songInfoListFuture[i]['song_spotify_id'] == null){
-                  convertedInfo = SongInfo(songName: songInfoListFuture[i]['title'], artistName: songInfoListFuture[i]['artist'], albumName: songInfoListFuture[i]['album'], dj: "Example DJ", lastPlayed: songInfoListFuture[i]['last_played_timestamp'], spotifyID: "");
-                }
-                else {
-                  convertedInfo = SongInfo(songName: songInfoListFuture[i]['title'], artistName: songInfoListFuture[i]['artist'], albumName: songInfoListFuture[i]['album'], dj: "Example DJ", lastPlayed: songInfoListFuture[i]['last_played_timestamp'], spotifyID: songInfoListFuture[i]['song_spotify_id']);
-                }
-                songInfoList.add(convertedInfo);
-              }
-              return Column(children: [
-                Expanded(
-                  child: Stack(children: [
-                    searchResults.isNotEmpty || _searchTextController.text.isNotEmpty
-                    ? _songList(searchResults)
-                    : _songList(songInfoList),
-                  ])
-                )
-              ]);
-            }
-            else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          })
+            child: FutureBuilder<Songs>(
+                future: futureSongs,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    songInfoListFuture = snapshot.data!.songs;
+                    for (int i = 0; i < songInfoListFuture.length; i++){
+                      SongInfo convertedInfo;
+                      if (songInfoListFuture[i]['song_spotify_id'] == null){
+                        convertedInfo = SongInfo(songName: songInfoListFuture[i]['title'], artistName: songInfoListFuture[i]['artist'], albumName: songInfoListFuture[i]['album'], dj: "Example DJ", lastPlayed: songInfoListFuture[i]['last_played_timestamp'], spotifyID: "");
+                      }
+                      else {
+                        convertedInfo = SongInfo(songName: songInfoListFuture[i]['title'], artistName: songInfoListFuture[i]['artist'], albumName: songInfoListFuture[i]['album'], dj: "Example DJ", lastPlayed: songInfoListFuture[i]['last_played_timestamp'], spotifyID: songInfoListFuture[i]['song_spotify_id']);
+                      }
+                      songInfoList.add(convertedInfo);
+                    }
+                    return Column(children: [
+                      Expanded(
+                          child: Stack(children: [
+                            searchResults.isNotEmpty || _searchTextController.text.isNotEmpty
+                                ? _songList(searchResults)
+                                : _songList(songInfoList),
+                          ])
+                      )
+                    ]);
+                  }
+                  else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                })
         ),
       );
     }
