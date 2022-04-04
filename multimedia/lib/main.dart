@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "toolbar.dart"; //put your file here
 import "articles.dart";
+import "home.dart";
 
 void main() => runApp(MyApp());
 
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         ExtractArticleData.routeName: (context) => const ExtractArticleData(),
+        '/Article': (context) => const newPageData(),
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

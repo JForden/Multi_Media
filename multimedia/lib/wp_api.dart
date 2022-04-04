@@ -16,3 +16,9 @@ Future<List> getData() async {
     throw Exception('Failed to load data');
   }
 }
+
+Future<List> fetchWpPosts() async {
+  final response = await http.get(Uri.parse('https://radiomilwaukee.org/wp-json/wp/v2/story?_embed&per_page=1'),headers: {"Accept": "application/json"});
+  var convertDatatoJson = jsonDecode(response.body);
+  return convertDatatoJson;
+}
