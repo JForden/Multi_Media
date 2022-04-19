@@ -12,6 +12,14 @@ class PlaylistPage extends StatefulWidget {
   _PlaylistPageState createState() => _PlaylistPageState();
 }
 
+class DJInfo {
+  String djName;
+  TimeOfDay time;
+  String day;
+
+  DJInfo({required this.djName, required this.time, required this.day});
+}
+
 class SongInfo {
   String songName;
   String artistName;
@@ -55,10 +63,12 @@ class _PlaylistPageState extends State<PlaylistPage> {
   final _searchTextController = TextEditingController();
   List<SongInfo> songInfoList = [];
   List<SongInfo> searchResults = [];
+  List<SongInfo> allRows = [];
   late Future<Songs> futureSongs;
   late Future<ItunesInfo> futureItunesInfo;
   List<dynamic> songInfoListFuture = [];
   List<dynamic> itunesSongInfoFuture = [];
+  List<DJInfo> djInfoList = [];
   bool allLoaded = false;
   bool isHover = false;
   bool typing = false;
@@ -106,10 +116,184 @@ class _PlaylistPageState extends State<PlaylistPage> {
     }
   }
 
+  fillDJInfoList() {
+    //DJ times for Monday-Wednesday
+    String day = "Monday";
+    for (int i = 0; i < 3; i++) {
+      djInfoList.add(DJInfo(
+          day: day,
+          djName: "Overnight",
+          time: const TimeOfDay(hour: 0, minute: 0)));
+      djInfoList.add(DJInfo(
+          day: day,
+          djName: "Dori Zori",
+          time: const TimeOfDay(hour: 6, minute: 0)));
+      djInfoList.add(DJInfo(
+          day: day,
+          djName: "Marcus Doucette",
+          time: const TimeOfDay(hour: 10, minute: 0)));
+      djInfoList.add(DJInfo(
+          day: day,
+          djName: "Justin Barney",
+          time: const TimeOfDay(hour: 14, minute: 0)));
+      djInfoList.add(DJInfo(
+          day: day,
+          djName: "Nate Imig",
+          time: const TimeOfDay(hour: 18, minute: 0)));
+      djInfoList.add(DJInfo(
+          day: day,
+          djName: "88Nine After 9 w/ Tarik Moody",
+          time: const TimeOfDay(hour: 21, minute: 0)));
+
+      if (day == "Monday") {
+        day = "Tuesday";
+      } else if (day == "Tuesday") {
+        day = "Wednesday";
+      }
+    }
+
+    //DJ times for Thursday
+    djInfoList.add(DJInfo(
+        day: day,
+        djName: "Overnight",
+        time: const TimeOfDay(hour: 0, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: day,
+        djName: "Dori Zori",
+        time: const TimeOfDay(hour: 6, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: day,
+        djName: "Marcus Doucette",
+        time: const TimeOfDay(hour: 10, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: day,
+        djName: "Justin Barney",
+        time: const TimeOfDay(hour: 14, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: day,
+        djName: "414 Live (Thursdays)",
+        time: const TimeOfDay(hour: 17, minute: 30)));
+    djInfoList.add(DJInfo(
+        day: day,
+        djName: "Nate Imig",
+        time: const TimeOfDay(hour: 18, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: day,
+        djName: "88Nine After 9 w/ Tarik Moody",
+        time: const TimeOfDay(hour: 21, minute: 0)));
+
+    //DJ times for Friday
+    djInfoList.add(DJInfo(
+        day: "Friday",
+        djName: "Overnight",
+        time: const TimeOfDay(hour: 0, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Friday",
+        djName: "Dori Zori",
+        time: const TimeOfDay(hour: 6, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Friday",
+        djName: "Marcus Doucette",
+        time: const TimeOfDay(hour: 10, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Friday",
+        djName: "Justin Barney",
+        time: const TimeOfDay(hour: 14, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Friday",
+        djName: "Nate Imig",
+        time: const TimeOfDay(hour: 18, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Friday",
+        djName: "Tarik Moody",
+        time: const TimeOfDay(hour: 21, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Friday",
+        djName: "Rhythm Lab Radio",
+        time: const TimeOfDay(hour: 22, minute: 0)));
+
+    //DJ times for Saturday
+    djInfoList.add(DJInfo(
+        day: "Saturday",
+        djName: "Overnight",
+        time: const TimeOfDay(hour: 0, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Saturday",
+        djName: "Anthony Foster",
+        time: const TimeOfDay(hour: 6, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Saturday",
+        djName: "Kids Disco with Dori Zori",
+        time: const TimeOfDay(hour: 9, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Saturday",
+        djName: "Let's Hear It with Marcus Doucette",
+        time: const TimeOfDay(hour: 10, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Saturday",
+        djName: "Element Everest-Blanks",
+        time: const TimeOfDay(hour: 12, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Saturday",
+        djName: "Kat Froelich",
+        time: const TimeOfDay(hour: 15, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Saturday",
+        djName: "Kenny Perez",
+        time: const TimeOfDay(hour: 18, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Saturday",
+        djName: "In The Mix with DJ Kenny Perez",
+        time: const TimeOfDay(hour: 22, minute: 0)));
+
+    //DJ times for Sunday
+    djInfoList.add(DJInfo(
+        day: "Sunday",
+        djName: "Overnight",
+        time: const TimeOfDay(hour: 0, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Sunday",
+        djName: "Doris Wessels",
+        time: const TimeOfDay(hour: 6, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Sunday",
+        djName: "Chris Alexander",
+        time: const TimeOfDay(hour: 9, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Sunday",
+        djName: "Element Everest-Blanks",
+        time: const TimeOfDay(hour: 12, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Sunday",
+        djName: "Kat Froelich",
+        time: const TimeOfDay(hour: 15, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Sunday",
+        djName: "Sound Travels with Marcus Doucette",
+        time: const TimeOfDay(hour: 18, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Sunday",
+        djName: "SHEROES with Carmel Holt",
+        time: const TimeOfDay(hour: 19, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Sunday",
+        djName: "From the Music Desk with Justin Barney",
+        time: const TimeOfDay(hour: 20, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Sunday",
+        djName: "Sound Opinions",
+        time: const TimeOfDay(hour: 21, minute: 0)));
+    djInfoList.add(DJInfo(
+        day: "Sunday",
+        djName: "Rhythm Lab Radio",
+        time: const TimeOfDay(hour: 22, minute: 0)));
+  }
+
   @override
   void initState() {
     super.initState();
     futureSongs = fetchSongs();
+    fillDJInfoList();
 
     futureSongs.whenComplete(() {
       allLoaded = true;
@@ -375,6 +559,90 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       }
                       songInfoList.add(convertedInfo);
                     }
+
+                    int mostRecent = TimeOfDay.fromDateTime(
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                        songInfoList[0].lastPlayed * 1000))
+                                .hour *
+                            60 +
+                        TimeOfDay.fromDateTime(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    songInfoList[0].lastPlayed * 1000))
+                            .minute;
+
+                    //finds the initial index of most recent played dj
+                    int djInfoListIndex = 0;
+                    for (int i = 0; i < djInfoList.length; i++) {
+                      if (mostRecent -
+                                  (djInfoList[i].time.hour * 60 +
+                                      djInfoList[i].time.minute) <=
+                              mostRecent -
+                                  (djInfoList[djInfoListIndex].time.hour * 60 +
+                                      djInfoList[djInfoListIndex]
+                                          .time
+                                          .minute) &&
+                          mostRecent -
+                                  (djInfoList[i].time.hour * 60 +
+                                      djInfoList[i].time.minute) >
+                              0 &&
+                          djInfoList[i].day ==
+                              DateFormat('EEEE').format(
+                                  DateTime.fromMillisecondsSinceEpoch(
+                                      songInfoList[0].lastPlayed * 1000))) {
+                        djInfoListIndex = i;
+                      }
+                    }
+
+                    //Puts the DJs and songs into one big list that will be displayed
+                    for (int i = 0; i < songInfoList.length; i++) {
+                      if ((mostRecent -
+                              djInfoList[djInfoListIndex].time.hour * 60 +
+                              djInfoList[djInfoListIndex].time.minute) >
+                          mostRecent -
+                              (TimeOfDay.fromDateTime(DateTime
+                                              .fromMillisecondsSinceEpoch(
+                                                  songInfoList[i].lastPlayed *
+                                                      1000))
+                                          .hour *
+                                      60 +
+                                  TimeOfDay.fromDateTime(
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                              songInfoList[i].lastPlayed *
+                                                  1000))
+                                      .minute)) {
+                        allRows.add(songInfoList[i]);
+                        mostRecent = TimeOfDay.fromDateTime(
+                                        DateTime.fromMillisecondsSinceEpoch(
+                                            allRows[allRows.length - 1]
+                                                    .lastPlayed *
+                                                1000))
+                                    .hour *
+                                60 +
+                            TimeOfDay.fromDateTime(
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                        allRows[allRows.length - 1].lastPlayed *
+                                            1000))
+                                .minute;
+                      } else {
+                        allRows.add(SongInfo(
+                            songName: "",
+                            artistName: "",
+                            albumName: "",
+                            dj: djInfoList[djInfoListIndex].djName,
+                            lastPlayed: 0,
+                            spotifyID: ""));
+                        mostRecent =
+                            djInfoList[djInfoListIndex].time.hour * 60 +
+                                djInfoList[djInfoListIndex].time.minute;
+                        if (djInfoListIndex == 0) {
+                          djInfoListIndex = djInfoList.length - 1;
+                        } else {
+                          djInfoListIndex--;
+                        }
+                        i--;
+                      }
+                    }
+
                     return Column(children: [
                       Expanded(
                           child: Stack(children: [
