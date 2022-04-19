@@ -29,11 +29,7 @@ class _HelpPageState extends State<HelpPage> {
       return Text(
         'Help',
         textAlign: TextAlign.right,
-        style: TextStyle(
-          fontSize: deviceHeight * 0.035,
-          fontWeight: FontWeight.bold,
-          color: color,
-        ),
+        style: Theme.of(context).textTheme.titleMedium,
       );
     }
 
@@ -67,7 +63,7 @@ class _HelpPageState extends State<HelpPage> {
             'Lots of really really long text,' +
             'Lots of really really long text,' +
             'Lots of really really long text,',
-        style: TextStyle(color: color, fontSize: 12),
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
     );
 

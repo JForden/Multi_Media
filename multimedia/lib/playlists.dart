@@ -320,7 +320,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
       Widget appBarSearch = SizedBox(
           width: 500,
           child: TextField(
-            style: TextStyle(color: Theme.of(context).dividerColor),
+            style: TextStyle(
+                color: Theme.of(context).dividerColor, fontFamily: "Helvetica"),
             controller: _searchTextController,
             onChanged: onSearchTextChanged,
             decoration: InputDecoration(
@@ -337,35 +338,37 @@ class _PlaylistPageState extends State<PlaylistPage> {
           ));
 
       //Widget used for appBase without the search bar
-      Widget appBarBase = Column(
+      Widget appBarBase = Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
-              'ON AIR:',
-              style: TextStyle(
-                fontSize: 10,
-                color: Colors.white,
-              ),
-            ),
-            Row(
+            const Padding(
+                padding: EdgeInsets.only(right: 8),
+                child: CircleAvatar(
+                  radius: 11.0,
+                  backgroundImage: AssetImage('assets/images/loading.gif'),
+                  backgroundColor: Colors.transparent,
+                )),
+            Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: const [
-                  CircleAvatar(
-                    radius: 9.0,
-                    backgroundImage: AssetImage('assets/images/loading.gif'),
-                    backgroundColor: Colors.transparent,
+                  Text(
+                    'ON AIR:',
+                    style: TextStyle(
+                        fontSize: 10,
+                        color: Colors.white,
+                        fontFamily: "Helvetica"),
                   ),
                   Text(
                     //need input from api
                     "Test DJ",
                     style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontFamily: "Helvetica"),
                   ),
-                ]),
+                ])
           ]);
 
       //creates the break row in the list
@@ -377,17 +380,19 @@ class _PlaylistPageState extends State<PlaylistPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const CircleAvatar(
-                  radius: 9.0,
-                  backgroundImage: AssetImage('assets/images/loading.gif'),
-                  backgroundColor: Colors.transparent,
-                ),
+                const Padding(
+                    padding: EdgeInsets.only(right: 8),
+                    child: CircleAvatar(
+                      radius: 11.0,
+                      backgroundImage: AssetImage('assets/images/loading.gif'),
+                      backgroundColor: Colors.transparent,
+                    )),
                 Text(
                   ' ' + dj,
                   style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                  ),
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontFamily: "Helvetica"),
                 ),
               ]),
         );
@@ -405,11 +410,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   width: 12,
                   height: 12,
                 ),
-                Text(" " + name,
-                    style: const TextStyle(
-                      height: 1.1,
-                      fontSize: 14,
-                    ))
+                Text(" " + name, style: Theme.of(context).textTheme.bodyMedium)
               ]),
               onTap: () => launch(link));
         } else {
@@ -421,11 +422,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   width: 12,
                   height: 12,
                 ),
-                Text(" " + name,
-                    style: const TextStyle(
-                      height: 1.1,
-                      fontSize: 14,
-                    ))
+                Text(" " + name, style: Theme.of(context).textTheme.bodyMedium)
               ]));
         }
       }
@@ -441,7 +438,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
             Text(formatter.format(DateTime.fromMillisecondsSinceEpoch(
                 songList[index].lastPlayed * 1000))),
           ]),
-          title: Text(songList[index].songName),
+          title: Text(songList[index].songName,
+              style: Theme.of(context).textTheme.titleSmall),
           subtitle: Text(
               songList[index].artistName + " - " + songList[index].albumName),
           trailing: Column(

@@ -29,11 +29,7 @@ class _SettingsPageState extends State<SettingsPage> {
       return Text(
         'Settings',
         textAlign: TextAlign.right,
-        style: TextStyle(
-          fontSize: deviceHeight * 0.035,
-          fontWeight: FontWeight.bold,
-          color: color,
-        ),
+        style: Theme.of(context).textTheme.titleMedium,
       );
     }
 
@@ -62,8 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
             'Add Music Streaming Service\n' +
             'Notifications\n' +
             'About\n',
-        style:
-            TextStyle(color: color, fontSize: 24, fontWeight: FontWeight.bold),
+        style: Theme.of(context).textTheme.labelMedium,
       ),
     );
 

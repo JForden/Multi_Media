@@ -52,11 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Text(
                       text,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: deviceHeight * 0.035,
-                        fontWeight: FontWeight.bold,
-                        color: color,
-                      ),
+                      style: Theme.of(context).textTheme.labelLarge,
                     ),
                   ),
                 ],
@@ -84,11 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Text(
                       text,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: deviceHeight * 0.035,
-                        fontWeight: FontWeight.bold,
-                        color: color,
-                      ),
+                      style: Theme.of(context).textTheme.labelLarge,
                     ),
                   ),
                 ],
@@ -115,12 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
       return Text(
         'Profile',
         textAlign: TextAlign.left,
-        style: TextStyle(
-          fontSize: deviceHeight * 0.06,
-          fontWeight: FontWeight.bold,
-          fontFamily: "Helvetica",
-          color: color,
-        ),
+        style: Theme.of(context).textTheme.titleLarge,
       );
     }
 

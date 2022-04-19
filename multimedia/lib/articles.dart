@@ -53,10 +53,7 @@ class _ArticlePageState extends State<ArticlePage> {
 
                       title: Text(
                         '\n' + title1,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
 
                       subtitle: FadeInImage.assetNetwork(
@@ -130,14 +127,15 @@ class ExtractArticleData extends StatelessWidget {
             child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Text(
-                title.toString(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              Padding(
+                  padding: EdgeInsets.only(
+                    top: 12,
+                  ),
+                  child: Text(
+                    title.toString(),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  )),
               //add a thin bar between the title and the content.
               Divider(
                 color: Theme.of(context).dividerColor,
