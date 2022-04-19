@@ -45,6 +45,15 @@ class _HomePageState extends State<HomePage> {
 //     }
 
 Widget mainSection = Column (children: [
+  Text(
+    "Featured Article",
+    textAlign: TextAlign.center,
+    style: TextStyle(
+      fontSize: 30.0,
+      fontWeight: FontWeight.bold,
+      fontFamily: "Helvetica",
+      ),
+      ),
   FutureBuilder (
             future: fetchWpPosts(),
             builder: (context,AsyncSnapshot snapshot){
@@ -91,6 +100,7 @@ Widget mainSection = Column (children: [
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
+                          fontFamily: "Helvetica",
                         ),
                       ),
 
@@ -109,9 +119,19 @@ Widget mainSection = Column (children: [
           ),
           FlatButton(child: 
                 Text('View all...',
-                style: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic, color: Colors.black),
+                style: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic,fontFamily: "Helvetica", color: Colors.black),
                 ),
                 onPressed: () => launch('https://radiomilwaukee.org/')),
+          Divider(),      
+           Text(
+    "Featured Podcast",
+    textAlign: TextAlign.center,
+    style: TextStyle(
+      fontSize: 30.0,
+      fontWeight: FontWeight.bold,
+      fontFamily: "Helvetica",
+      ),
+      ),
            FutureBuilder (
             future: fetchWpPosts(),
             builder: (context,AsyncSnapshot snapshot){
@@ -158,6 +178,7 @@ Widget mainSection = Column (children: [
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
+                          fontFamily: "Helvetica",
                         ),
                       ),
 
@@ -176,7 +197,7 @@ Widget mainSection = Column (children: [
           ),
           FlatButton(child: 
                 Text('View all...',
-                style: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic, color: Colors.black),
+                style: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic,fontFamily: "Helvetica", color: Colors.black),
                 ),
                 onPressed: () => launch('https://radiomilwaukee.org/')),
 
