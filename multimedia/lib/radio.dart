@@ -49,12 +49,10 @@ class _RadioPageState extends State<RadioPage> {
           ));
     }
 
-    Color color = Theme.of(context).primaryColor;
-
     Widget playButtonSection = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildPlayButton(color, playIcon, "Play"),
+        _buildPlayButton(Theme.of(context).primaryColor, playIcon, "Play"),
       ],
     );
 
@@ -75,13 +73,17 @@ class _RadioPageState extends State<RadioPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildButtonColumn(
-            color,
+            Theme.of(context).primaryColor,
             Icons.person_sharp,
             'Artist info',
             artistUrl,
           ),
-          _buildButtonColumn(color, Icons.list, 'Add to playlist', songUrl),
-          _buildButtonColumn(color, Icons.share, 'Share',
+          _buildButtonColumn(Theme.of(context).primaryColor, Icons.list,
+              'Add to playlist', songUrl),
+          _buildButtonColumn(
+              Theme.of(context).primaryColor,
+              Icons.share,
+              'Share',
               'https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT?si=6eb186f21dd749bd'),
         ],
       );
@@ -204,14 +206,16 @@ class _RadioPageState extends State<RadioPage> {
         child: Container(
             width: deviceWidth * 0.2,
             height: deviceHeight * 0.2,
-            decoration:
-                BoxDecoration(color: Colors.amber, shape: BoxShape.circle),
+            decoration: BoxDecoration(
+                color: Theme.of(context).splashColor, shape: BoxShape.circle),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(playIcon, color: Colors.white, size: deviceHeight * 0.08),
+                Icon(playIcon,
+                    color: Theme.of(context).backgroundColor,
+                    size: deviceHeight * 0.08),
               ],
             )));
   }

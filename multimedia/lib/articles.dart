@@ -11,6 +11,7 @@ class _ArticlePageState extends State<ArticlePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: Theme.of(context).primaryColor),
       body: Container(
         child: FutureBuilder(
           future: getData(),
@@ -72,7 +73,7 @@ class _ArticlePageState extends State<ArticlePage> {
               //if the list has no data, it will return a loading indicator.
               return Center(
                 child: CircularProgressIndicator(
-                  color: Colors.red,
+                  color: Theme.of(context).errorColor,
                 ),
               );
             }
@@ -124,7 +125,7 @@ class ExtractArticleData extends StatelessWidget {
     //print(content1);
     //print(content1.toString());
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(backgroundColor: Theme.of(context).primaryColor),
         body: Container(
             child: SingleChildScrollView(
           child: Column(
@@ -139,7 +140,7 @@ class ExtractArticleData extends StatelessWidget {
               ),
               //add a thin bar between the title and the content.
               Divider(
-                color: Colors.black,
+                color: Theme.of(context).dividerColor,
                 thickness: 3.0,
                 indent: 20.0,
                 endIndent: 20.0,

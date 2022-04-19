@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'help.dart';
@@ -39,7 +39,8 @@ class _ProfilePageState extends State<ProfilePage> {
               width: deviceWidth * 0.9,
               height: deviceHeight * 0.1,
               decoration: BoxDecoration(
-                  color: Colors.amber, borderRadius: BorderRadius.circular(16)),
+                  color: Theme.of(context).splashColor,
+                  borderRadius: BorderRadius.circular(16)),
               padding: EdgeInsets.only(left: 8, right: 8),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -70,7 +71,8 @@ class _ProfilePageState extends State<ProfilePage> {
               width: deviceWidth * 0.9,
               height: deviceHeight * 0.1,
               decoration: BoxDecoration(
-                  color: Colors.amber, borderRadius: BorderRadius.circular(16)),
+                  color: Theme.of(context).splashColor,
+                  borderRadius: BorderRadius.circular(16)),
               padding: EdgeInsets.only(left: 8, right: 8),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -122,9 +124,6 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
-    //88Nine Brown (tm)
-    Color color = Color.fromARGB(255, 71, 57, 45);
-
     Widget topBar = Container(
       width: deviceWidth * 0.9,
       height: deviceHeight * 0.1,
@@ -133,8 +132,9 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildProfileTitle(color),
-          _buildSettingsButton(color, Icons.settings, SettingsPage())
+          _buildProfileTitle(Theme.of(context).primaryColor),
+          _buildSettingsButton(
+              Theme.of(context).primaryColor, Icons.settings, SettingsPage())
         ],
       ),
     );
@@ -146,11 +146,15 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _buildLinkButton(color, Icons.star, 'Support Us',
+            _buildLinkButton(
+                Theme.of(context).primaryColor,
+                Icons.star,
+                'Support Us',
                 "https://radiomilwaukee.org/support-us/membership/"),
-            _buildLinkButton(color, Icons.shopping_bag, 'Shop',
-                "https://radiomilwaukee.org/shop/"),
-            _buildBigButton(color, Icons.help, 'Help', HelpPage()),
+            _buildLinkButton(Theme.of(context).primaryColor, Icons.shopping_bag,
+                'Shop', "https://radiomilwaukee.org/shop/"),
+            _buildBigButton(
+                Theme.of(context).primaryColor, Icons.help, 'Help', HelpPage()),
           ],
         ));
 
