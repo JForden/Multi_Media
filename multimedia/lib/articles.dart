@@ -11,7 +11,12 @@ class _ArticlePageState extends State<ArticlePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Theme.of(context).primaryColor),
+      appBar: AppBar(
+        title: Text("News",
+            textAlign: TextAlign.center,
+            style: Theme.of(context).primaryTextTheme.titleLarge),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
       body: Container(
         child: FutureBuilder(
           future: getData(),
@@ -122,7 +127,12 @@ class ExtractArticleData extends StatelessWidget {
     //print(content1);
     //print(content1.toString());
     return Scaffold(
-        appBar: AppBar(backgroundColor: Theme.of(context).primaryColor),
+        appBar: AppBar(
+          title: Text("News",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).primaryTextTheme.titleLarge),
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
         body: Container(
             child: SingleChildScrollView(
           child: Column(
