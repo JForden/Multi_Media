@@ -352,21 +352,15 @@ class _PlaylistPageState extends State<PlaylistPage> {
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     'ON AIR:',
-                    style: TextStyle(
-                        fontSize: 10,
-                        color: Colors.white,
-                        fontFamily: "Helvetica"),
+                    style: Theme.of(context).primaryTextTheme.headlineSmall,
                   ),
                   Text(
                     //need input from api
                     "Test DJ",
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontFamily: "Helvetica"),
+                    style: Theme.of(context).primaryTextTheme.headlineSmall,
                   ),
                 ])
           ]);
@@ -389,10 +383,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     )),
                 Text(
                   ' ' + dj,
-                  style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontFamily: "Helvetica"),
+                  style: Theme.of(context).primaryTextTheme.headlineSmall,
                 ),
               ]),
         );
