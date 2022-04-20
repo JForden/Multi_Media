@@ -103,11 +103,11 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     //Builds Profile title, extra width used to push settings button to the right
-    Text _buildProfileTitle(Color color) {
+    Text _buildProfileTitle() {
       return Text(
         'Profile',
-        textAlign: TextAlign.left,
-        style: Theme.of(context).textTheme.titleLarge,
+        textAlign: TextAlign.center,
+        style: Theme.of(context).primaryTextTheme.titleLarge,
       );
     }
 
@@ -115,13 +115,14 @@ class _ProfilePageState extends State<ProfilePage> {
       width: deviceWidth * 0.9,
       height: deviceHeight * 0.1,
       padding:
-          EdgeInsets.only(left: deviceWidth * .05, right: deviceWidth * .05),
+          EdgeInsets.only(left: deviceWidth * .00, right: deviceWidth * .00),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildProfileTitle(Theme.of(context).primaryColor),
-          _buildSettingsButton(
-              Theme.of(context).primaryColor, Icons.settings, SettingsPage())
+          const SizedBox(width: 32),
+          _buildProfileTitle(),
+          _buildSettingsButton(Theme.of(context).scaffoldBackgroundColor,
+              Icons.settings, SettingsPage())
         ],
       ),
     );
@@ -146,12 +147,11 @@ class _ProfilePageState extends State<ProfilePage> {
         ));
 
     return Scaffold(
-      body: ListView(
-        children: [
-          topBar,
-          bigButtons,
-        ],
+      appBar: AppBar(
+        title: topBar,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
+      body: bigButtons,
     );
   }
 }
