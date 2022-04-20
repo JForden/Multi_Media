@@ -61,7 +61,9 @@ Widget mainSection = Column(
                           .replaceAll('&#8216;', '\'')
                           .replaceAll('&#8217;', '\'')
                           .replaceAll('&#8212;', '-')
-                          .replaceAll('&#038;', '&'),
+                          .replaceAll('&#038;', '&')
+                          .replaceAll('&#8220;', '“')
+                          .replaceAll('&#8221;', '”'),
                       style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -80,6 +82,8 @@ Widget mainSection = Column(
                           .replaceAll('&#8217;', '\'')
                           .replaceAll('&#8212;', '-')
                           .replaceAll('&#038;', '&')
+                          .replaceAll('&#8220;', '“')
+                          .replaceAll('&#8221;', '”')
                           .toString(),
                       'content': snapshot.data[index]['content']['rendered']
                           .toString(),
@@ -93,7 +97,9 @@ Widget mainSection = Column(
                             .replaceAll('&#8216;', '\'')
                             .replaceAll('&#8217;', '\'')
                             .replaceAll('&#8212;', '-')
-                            .replaceAll('&#038;', '&'),
+                            .replaceAll('&#038;', '&')
+                            .replaceAll('&#8220;', '“')
+                            .replaceAll('&#8221;', '”'),
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -136,7 +142,9 @@ Widget mainSection = Column(
                           .replaceAll('&#8216;', '\'')
                           .replaceAll('&#8217;', '\'')
                           .replaceAll('&#8212;', '-')
-                          .replaceAll('&#038;', '&'),
+                          .replaceAll('&#038;', '&')
+                          .replaceAll('&#8220;', '“')
+                          .replaceAll('&#8221;', '”'),
                       style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -155,6 +163,8 @@ Widget mainSection = Column(
                           .replaceAll('&#8217;', '\'')
                           .replaceAll('&#8212;', '-')
                           .replaceAll('&#038;', '&')
+                          .replaceAll('&#8220;', '“')
+                          .replaceAll('&#8221;', '”')
                           .toString(),
                       'content': snapshot.data[index]['content']['rendered']
                           .toString(),
@@ -168,7 +178,9 @@ Widget mainSection = Column(
                             .replaceAll('&#8216;', '\'')
                             .replaceAll('&#8217;', '\'')
                             .replaceAll('&#8212;', '-')
-                            .replaceAll('&#038;', '&'),
+                            .replaceAll('&#038;', '&')
+                            .replaceAll('&#8220;', '“')
+                            .replaceAll('&#8221;', '”'),
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -235,7 +247,12 @@ class newPageData extends StatelessWidget {
     //print(content1);
     //print(content1.toString());
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text("News",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).primaryTextTheme.titleLarge),
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
         body: Container(
             child: SingleChildScrollView(
           child: Column(
