@@ -43,33 +43,41 @@ class _ArticlePageState extends State<ArticlePage> {
                         .replaceAll('&#8216;', '\'')
                         .replaceAll('&#8217;', '\'')
                         .replaceAll('&#8212;', '-')
-                        .replaceAll('&#038;', '&');
-                    return ListTile(
-                      onTap: () {
-                        //when the user taps on an article, it will open a new page with the article's content.
-                        Navigator.pushNamed(
-                            context, ExtractArticleData.routeName,
-                            arguments: {
-                              'title': title1.toString(),
-                              'content': art_data.toString(),
-                            });
-                      },
-                      //returns a list tile with the title formmatted.
+                        .replaceAll('&#038;', '&')
+                        .replaceAll('&#8220;', '“')
+                        .replaceAll('&#8221;', '”');
+                    return Card(
+                        elevation: 2,
+                        child: Padding(
+                            padding: EdgeInsets.only(bottom: 16),
+                            child: ListTile(
+                              onTap: () {
+                                //when the user taps on an article, it will open a new page with the article's content.
+                                Navigator.pushNamed(
+                                    context, ExtractArticleData.routeName,
+                                    arguments: {
+                                      'title': title1.toString(),
+                                      'content': art_data.toString(),
+                                    });
+                              },
+                              //returns a list tile with the title formmatted.
 
-                      title: Text(
-                        '\n' + title1,
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
+                              title: Text(
+                                '\n' + title1,
+                                style:
+                                    Theme.of(context).textTheme.headlineMedium,
+                              ),
 
-                      subtitle: FadeInImage.assetNetwork(
-                        image: image_URL,
-                        placeholder: 'assets/images/loading.gif',
-                        imageErrorBuilder: (context, error, stackTrace) {
-                          //if the image fails to load, it will display a placeholder image.
-                          return Image.asset(image_URL);
-                        },
-                      ),
-                    );
+                              subtitle: FadeInImage.assetNetwork(
+                                image: image_URL,
+                                placeholder: 'assets/images/loading.gif',
+                                imageErrorBuilder:
+                                    (context, error, stackTrace) {
+                                  //if the image fails to load, it will display a placeholder image.
+                                  return Image.asset(image_URL);
+                                },
+                              ),
+                            )));
                   });
             } else {
               //if the list has no data, it will return a loading indicator.
