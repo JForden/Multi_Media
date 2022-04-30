@@ -18,7 +18,20 @@ Future<List> getData() async {
 }
 
 Future<List> fetchWpPosts() async {
-  final response = await http.get(Uri.parse('https://radiomilwaukee.org/wp-json/wp/v2/story?_embed&per_page=1'),headers: {"Accept": "application/json"});
+  final response = await http.get(
+      Uri.parse(
+          'https://radiomilwaukee.org/wp-json/wp/v2/story?_embed&per_page=1'),
+      headers: {"Accept": "application/json"});
+  var convertDatatoJson = jsonDecode(response.body);
+  return convertDatatoJson;
+}
+
+Future<List> fetchSpreakerPosts() async {
+  //userID: 10450774
+  final response = await http.get(
+      Uri.parse(
+          'https://api.spreaker.com/v2/users/radiomilwaukee/episodes?page=1&per_page=1'),
+      headers: {"Accept": "application/json"});
   var convertDatatoJson = jsonDecode(response.body);
   return convertDatatoJson;
 }
