@@ -92,7 +92,7 @@ Widget mainSection = Column(
                   //returns a list tile with the title formmatted.
 
                   title: Text(
-                    '\n' +
+                    'Featured Article: \n' +
                         wppost['title']['rendered']
                             .replaceAll('&#8216;', '\'')
                             .replaceAll('&#8217;', '\'')
@@ -124,21 +124,22 @@ Widget mainSection = Column(
         ),
         onPressed: () => launch('https://radiomilwaukee.org/')),
     FutureBuilder(
-        future: fetchWpPosts(),
+        future: fetchSpreakerPosts(),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
               shrinkWrap: true,
-              itemCount: snapshot.data.length,
+              itemCount: 1,
               itemBuilder: (BuildContext context, int index) {
-                Map wppost = snapshot.data[index];
-                var imageurl =
-                    wppost["_embedded"]["wp:featuredmedia"][0]["source_url"];
+                var imageurl = snapshot.data[0]["image_original_url"];
+                print(imageurl);
+                var titleurl = snapshot.data[0]["title"];
+                print(titleurl);
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(children: [
                     Text(
-                      wppost['title']['rendered']
+                      titleurl
                           .replaceAll('&#8216;', '\'')
                           .replaceAll('&#8217;', '\'')
                           .replaceAll('&#8212;', '-')
@@ -158,7 +159,7 @@ Widget mainSection = Column(
                     //when the user taps on an article, it will open a new page with the article's content.
                     Navigator.of(context, rootNavigator: true)
                         .pushNamed('/Article', arguments: {
-                      'title': wppost['title']['rendered']
+                      'title': titleurl
                           .replaceAll('&#8216;', '\'')
                           .replaceAll('&#8217;', '\'')
                           .replaceAll('&#8212;', '-')
@@ -166,15 +167,13 @@ Widget mainSection = Column(
                           .replaceAll('&#8220;', '“')
                           .replaceAll('&#8221;', '”')
                           .toString(),
-                      'content': snapshot.data[index]['content']['rendered']
-                          .toString(),
+                      'content': titleurl.toString(), //changed
                     });
                   },
                   //returns a list tile with the title formmatted.
-
                   title: Text(
-                    '\n' +
-                        wppost['title']['rendered']
+                    'Featured Podcast: \n' +
+                        titleurl
                             .replaceAll('&#8216;', '\'')
                             .replaceAll('&#8217;', '\'')
                             .replaceAll('&#8212;', '-')
@@ -203,7 +202,7 @@ Widget mainSection = Column(
           style: const TextStyle(
               fontSize: 18, fontStyle: FontStyle.italic, color: Colors.black),
         ),
-        onPressed: () => launch('https://radiomilwaukee.org/')),
+        onPressed: () => launch('https://radiomilwaukee.org/podcasts/')),
   ],
 );
 

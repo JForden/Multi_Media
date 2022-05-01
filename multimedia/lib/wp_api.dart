@@ -27,11 +27,14 @@ Future<List> fetchWpPosts() async {
 }
 
 Future<List> fetchSpreakerPosts() async {
-  //userID: 10450774
   final response = await http.get(
       Uri.parse(
           'https://api.spreaker.com/v2/users/radiomilwaukee/episodes?page=1&per_page=1'),
       headers: {"Accept": "application/json"});
-  var convertDatatoJson = jsonDecode(response.body);
-  return convertDatatoJson;
+  if (response.statusCode == 200) {
+    var convertDatatoJson = jsonDecode(response.body);
+    return convertDatatoJson["response"]["items"];
+  } else {
+    throw Exception("Failed to load");
+  }
 }
