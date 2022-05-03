@@ -16,9 +16,11 @@ class _RadioPageState extends State<RadioPage> {
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
+
     Widget titleSection(SongInfo currentSong) {
       return Container(
-          padding: const EdgeInsets.all(32),
+          padding:
+              const EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 0),
           child: Row(
             children: [
               Expanded(
@@ -102,6 +104,12 @@ class _RadioPageState extends State<RadioPage> {
     return MaterialApp(
         title: 'Radio Page',
         home: Scaffold(
+            appBar: AppBar(
+              title: Text("Now Playing",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).primaryTextTheme.titleLarge),
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
             body: Center(
                 child: FutureBuilder<Songs>(
                     future: fetchSongs(),
@@ -126,7 +134,7 @@ class _RadioPageState extends State<RadioPage> {
                           children: [
                             Padding(
                                 padding:
-                                    EdgeInsets.only(top: deviceHeight * 0.05),
+                                    EdgeInsets.only(top: deviceHeight * 0.02),
                                 child: FadeInImage.assetNetwork(
                                   image: currentSong.imageUrl,
                                   placeholder: 'assets/images/loading.gif',
@@ -140,7 +148,9 @@ class _RadioPageState extends State<RadioPage> {
                                   height: 200,
                                 )),
                             titleSection(currentSong),
-                            playButtonSection,
+                            Padding(
+                                padding: EdgeInsets.all(16),
+                                child: playButtonSection),
                             buttonSection(currentSong),
                             textSection(currentSong),
                           ],
@@ -203,20 +213,17 @@ class _RadioPageState extends State<RadioPage> {
           }
           setState(() {});
         },
+        splashColor: Theme.of(context).backgroundColor,
         child: Container(
             width: deviceWidth * 0.2,
-            height: deviceHeight * 0.2,
+            height: deviceWidth * 0.2,
             decoration: BoxDecoration(
                 color: Theme.of(context).splashColor, shape: BoxShape.circle),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(playIcon,
-                    color: Theme.of(context).backgroundColor,
-                    size: deviceHeight * 0.08),
-              ],
+            child: Container(
+              alignment: Alignment.center,
+              child: Icon(playIcon,
+                  color: Theme.of(context).backgroundColor,
+                  size: deviceHeight * 0.08),
             )));
   }
 }
