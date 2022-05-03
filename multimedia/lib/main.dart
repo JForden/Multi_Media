@@ -165,19 +165,19 @@ class MyApp extends StatelessWidget {
               fontSize: 32,
               fontWeight: FontWeight.bold,
               fontFamily: "Helvetica",
-              color: Color.fromARGB(255, 71, 57, 45),
+              color: Color.fromARGB(255, 246, 245, 244),
             ),
             labelMedium: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               fontFamily: "Helvetica",
-              color: Color.fromARGB(255, 71, 57, 45),
+              color: Color.fromARGB(255, 246, 245, 244),
             ),
             labelSmall: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               fontFamily: "Helvetica",
-              color: Color.fromARGB(255, 71, 57, 45),
+              color: Color.fromARGB(255, 246, 245, 244),
             ),
           )),
       home: ChangeNotifierProvider<ValueNotifier<int>>.value(
