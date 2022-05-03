@@ -22,8 +22,8 @@ class _HomePageState extends State<HomePage> {
             children: [
               Image.asset(
                 "assets/images/logo.jpg",
-                width: 250,
-                height: 250,
+                width: 100,
+                height: 100,
               ),
               mainSection
             ],
@@ -42,57 +42,22 @@ class _HomePageState extends State<HomePage> {
 
 Widget mainSection = Column(
   children: [
-    FutureBuilder(
-        future: fetchWpPosts(),
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: snapshot.data.length,
-              itemBuilder: (BuildContext context, int index) {
-                Map wppost = snapshot.data[index];
-                var imageurl =
-                    wppost["_embedded"]["wp:featuredmedia"][0]["source_url"];
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(children: [
-                    Text(
-                      wppost['title']['rendered']
-                          .replaceAll('&#8216;', '\'')
-                          .replaceAll('&#8217;', '\'')
-                          .replaceAll('&#8212;', '-')
-                          .replaceAll('&#038;', '&')
-                          .replaceAll('&#8220;', '“')
-                          .replaceAll('&#8221;', '”'),
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueAccent),
-                    ),
-                    Image.network(imageurl),
-                  ]),
-                );
-                return ListTile(
-                  onTap: () {
-                    //when the user taps on an article, it will open a new page with the article's content.
-                    Navigator.of(context, rootNavigator: true)
-                        .pushNamed('/Article', arguments: {
-                      'title': wppost['title']['rendered']
-                          .replaceAll('&#8216;', '\'')
-                          .replaceAll('&#8217;', '\'')
-                          .replaceAll('&#8212;', '-')
-                          .replaceAll('&#038;', '&')
-                          .replaceAll('&#8220;', '“')
-                          .replaceAll('&#8221;', '”')
-                          .toString(),
-                      'content': snapshot.data[index]['content']['rendered']
-                          .toString(),
-                    });
-                  },
-                  //returns a list tile with the title formmatted.
-
-                  title: Text(
-                    'Featured Article: \n' +
+    Column(children: [
+      FutureBuilder(
+          future: fetchWpPosts(),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Map wppost = snapshot.data[index];
+                  var imageurl =
+                      wppost["_embedded"]["wp:featuredmedia"][0]["source_url"];
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(children: [
+                      Text(
                         wppost['title']['rendered']
                             .replaceAll('&#8216;', '\'')
                             .replaceAll('&#8217;', '\'')
@@ -100,79 +65,83 @@ Widget mainSection = Column(
                             .replaceAll('&#038;', '&')
                             .replaceAll('&#8220;', '“')
                             .replaceAll('&#8221;', '”'),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueAccent),
+                      ),
+                      Image.network(imageurl),
+                    ]),
+                  );
+                  return ListTile(
+                    onTap: () {
+                      //when the user taps on an article, it will open a new page with the article's content.
+                      Navigator.of(context, rootNavigator: true)
+                          .pushNamed('/Article', arguments: {
+                        'title': wppost['title']['rendered']
+                            .replaceAll('&#8216;', '\'')
+                            .replaceAll('&#8217;', '\'')
+                            .replaceAll('&#8212;', '-')
+                            .replaceAll('&#038;', '&')
+                            .replaceAll('&#8220;', '“')
+                            .replaceAll('&#8221;', '”')
+                            .toString(),
+                        'content': snapshot.data[index]['content']['rendered']
+                            .toString(),
+                      });
+                    },
+                    //returns a list tile with the title formmatted.
 
-                  subtitle: FadeInImage.assetNetwork(
-                    image: imageurl,
-                    placeholder: 'assets/images/loading.gif',
-                  ),
-                );
-              },
-            );
-          }
-          return CircularProgressIndicator();
-        }),
-    FlatButton(
-        child: Text(
-          'View all...',
-          style: const TextStyle(
-              fontSize: 18, fontStyle: FontStyle.italic, color: Colors.black),
-        ),
-        onPressed: () => launch('https://radiomilwaukee.org/')),
-    FutureBuilder(
-        future: fetchSpreakerPosts(),
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: 1,
-              itemBuilder: (BuildContext context, int index) {
-                var imageurl = snapshot.data[0]["image_original_url"];
-                print(imageurl);
-                var titleurl = snapshot.data[0]["title"];
-                print(titleurl);
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(children: [
-                    Text(
-                      titleurl
-                          .replaceAll('&#8216;', '\'')
-                          .replaceAll('&#8217;', '\'')
-                          .replaceAll('&#8212;', '-')
-                          .replaceAll('&#038;', '&')
-                          .replaceAll('&#8220;', '“')
-                          .replaceAll('&#8221;', '”'),
+                    title: Text(
+                      'Featured Article: \n' +
+                          wppost['title']['rendered']
+                              .replaceAll('&#8216;', '\'')
+                              .replaceAll('&#8217;', '\'')
+                              .replaceAll('&#8212;', '-')
+                              .replaceAll('&#038;', '&')
+                              .replaceAll('&#8220;', '“')
+                              .replaceAll('&#8221;', '”'),
                       style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueAccent),
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    Image.network(imageurl),
-                  ]),
-                );
-                return ListTile(
-                  onTap: () {
-                    //when the user taps on an article, it will open a new page with the article's content.
-                    Navigator.of(context, rootNavigator: true)
-                        .pushNamed('/Article', arguments: {
-                      'title': titleurl
-                          .replaceAll('&#8216;', '\'')
-                          .replaceAll('&#8217;', '\'')
-                          .replaceAll('&#8212;', '-')
-                          .replaceAll('&#038;', '&')
-                          .replaceAll('&#8220;', '“')
-                          .replaceAll('&#8221;', '”')
-                          .toString(),
-                      'content': titleurl.toString(), //changed
-                    });
-                  },
-                  //returns a list tile with the title formmatted.
-                  title: Text(
-                    'Featured Podcast: \n' +
+
+                    subtitle: FadeInImage.assetNetwork(
+                      image: imageurl,
+                      placeholder: 'assets/images/loading.gif',
+                    ),
+                  );
+                },
+              );
+            }
+            return CircularProgressIndicator();
+          }),
+      FlatButton(
+          child: Text(
+            'View all...',
+            style: const TextStyle(
+                fontSize: 18, fontStyle: FontStyle.italic, color: Colors.black),
+          ),
+          onPressed: () => launch('https://radiomilwaukee.org/'))
+    ]),
+    Column(children: [
+      FutureBuilder(
+          future: fetchSpreakerPosts(),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: 1,
+                itemBuilder: (BuildContext context, int index) {
+                  var imageurl = snapshot.data[0]["image_original_url"];
+                  print(imageurl);
+                  var titleurl = snapshot.data[0]["title"];
+                  print(titleurl);
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(children: [
+                      Text(
                         titleurl
                             .replaceAll('&#8216;', '\'')
                             .replaceAll('&#8217;', '\'')
@@ -180,29 +149,64 @@ Widget mainSection = Column(
                             .replaceAll('&#038;', '&')
                             .replaceAll('&#8220;', '“')
                             .replaceAll('&#8221;', '”'),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueAccent),
+                      ),
+                      Image.network(imageurl),
+                    ]),
+                  );
+                  return ListTile(
+                    onTap: () {
+                      //when the user taps on an article, it will open a new page with the article's content.
+                      Navigator.of(context, rootNavigator: true)
+                          .pushNamed('/Article', arguments: {
+                        'title': titleurl
+                            .replaceAll('&#8216;', '\'')
+                            .replaceAll('&#8217;', '\'')
+                            .replaceAll('&#8212;', '-')
+                            .replaceAll('&#038;', '&')
+                            .replaceAll('&#8220;', '“')
+                            .replaceAll('&#8221;', '”')
+                            .toString(),
+                        'content': titleurl.toString(), //changed
+                      });
+                    },
+                    //returns a list tile with the title formmatted.
+                    title: Text(
+                      'Featured Podcast: \n' +
+                          titleurl
+                              .replaceAll('&#8216;', '\'')
+                              .replaceAll('&#8217;', '\'')
+                              .replaceAll('&#8212;', '-')
+                              .replaceAll('&#038;', '&')
+                              .replaceAll('&#8220;', '“')
+                              .replaceAll('&#8221;', '”'),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
 
-                  subtitle: FadeInImage.assetNetwork(
-                    image: imageurl,
-                    placeholder: 'assets/images/loading.gif',
-                  ),
-                );
-              },
-            );
-          }
-          return CircularProgressIndicator();
-        }),
-    FlatButton(
-        child: Text(
-          'View all...',
-          style: const TextStyle(
-              fontSize: 18, fontStyle: FontStyle.italic, color: Colors.black),
-        ),
-        onPressed: () => launch('https://radiomilwaukee.org/podcasts/')),
+                    subtitle: FadeInImage.assetNetwork(
+                      image: imageurl,
+                      placeholder: 'assets/images/loading.gif',
+                    ),
+                  );
+                },
+              );
+            }
+            return CircularProgressIndicator();
+          }),
+      FlatButton(
+          child: Text(
+            'View all...',
+            style: const TextStyle(
+                fontSize: 18, fontStyle: FontStyle.italic, color: Colors.black),
+          ),
+          onPressed: () => launch('https://radiomilwaukee.org/podcasts/'))
+    ]),
   ],
 );
 

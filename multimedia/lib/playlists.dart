@@ -634,12 +634,14 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
                     return Column(children: [
                       Expanded(
-                          child: Stack(children: [
-                        searchResults.isNotEmpty ||
-                                _searchTextController.text.isNotEmpty
-                            ? _songList(searchResults)
-                            : _songList(songInfoList),
-                      ]))
+                          child: Card(
+                              elevation: 2,
+                              child: Stack(children: [
+                                searchResults.isNotEmpty ||
+                                        _searchTextController.text.isNotEmpty
+                                    ? _songList(searchResults)
+                                    : _songList(songInfoList),
+                              ])))
                     ]);
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');

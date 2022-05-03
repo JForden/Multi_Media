@@ -40,19 +40,22 @@ class _ProfilePageState extends State<ProfilePage> {
               height: deviceHeight * 0.1,
               decoration: BoxDecoration(
                   color: Theme.of(context).splashColor,
-                  borderRadius: BorderRadius.circular(16)),
+                  borderRadius: BorderRadius.circular(4)),
               padding: EdgeInsets.only(left: 8, right: 8),
+              margin: EdgeInsets.only(top: 4),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(icon, color: color, size: deviceHeight * 0.08),
+                  Icon(icon,
+                      color: Theme.of(context).backgroundColor,
+                      size: deviceHeight * 0.08),
                   Padding(
                     padding: EdgeInsets.only(left: 8),
                     child: Text(
                       text,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.labelLarge,
+                      style: Theme.of(context).primaryTextTheme.labelLarge,
                     ),
                   ),
                 ],
@@ -68,19 +71,22 @@ class _ProfilePageState extends State<ProfilePage> {
               height: deviceHeight * 0.1,
               decoration: BoxDecoration(
                   color: Theme.of(context).splashColor,
-                  borderRadius: BorderRadius.circular(16)),
+                  borderRadius: BorderRadius.circular(4)),
               padding: EdgeInsets.only(left: 8, right: 8),
+              margin: EdgeInsets.only(top: 4),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(icon, color: color, size: deviceHeight * 0.08),
+                  Icon(icon,
+                      color: Theme.of(context).backgroundColor,
+                      size: deviceHeight * 0.08),
                   Padding(
                     padding: EdgeInsets.only(left: 8),
                     child: Text(
                       text,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.labelLarge,
+                      style: Theme.of(context).primaryTextTheme.labelLarge,
                     ),
                   ),
                 ],
@@ -129,22 +135,27 @@ class _ProfilePageState extends State<ProfilePage> {
 
     Widget bigButtons = Container(
         width: deviceWidth,
-        height: deviceHeight * 0.45,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _buildLinkButton(
-                Theme.of(context).primaryColor,
-                Icons.star,
-                'Support Us',
-                "https://radiomilwaukee.org/support-us/membership/"),
-            _buildLinkButton(Theme.of(context).primaryColor, Icons.shopping_bag,
-                'Shop', "https://radiomilwaukee.org/shop/"),
-            _buildBigButton(
-                Theme.of(context).primaryColor, Icons.help, 'Help', HelpPage()),
-          ],
-        ));
+        height: deviceHeight * 0.365,
+        child: Padding(
+            padding: EdgeInsets.only(top: deviceHeight * 0.045),
+            child: Column(
+              //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildLinkButton(
+                    Theme.of(context).primaryColor,
+                    Icons.star,
+                    'Support Us',
+                    "https://radiomilwaukee.org/support-us/membership/"),
+                _buildLinkButton(
+                    Theme.of(context).primaryColor,
+                    Icons.shopping_bag,
+                    'Shop',
+                    "https://radiomilwaukee.org/shop/"),
+                _buildBigButton(Theme.of(context).primaryColor, Icons.help,
+                    'Help', HelpPage()),
+              ],
+            )));
 
     return Scaffold(
       appBar: AppBar(
