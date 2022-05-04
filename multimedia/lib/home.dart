@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'wp_api.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'main.dart';
+
 //import 'package:html/parser.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,6 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+  AudioPlayer audioPlugin = AudioPlayer();
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
@@ -32,13 +37,6 @@ class _HomePageState extends State<HomePage> {
         debugShowCheckedModeBanner: false);
   }
 }
-// _launchURLApp() async {
-//     const url = 'https://flutterdevs.com/';
-//     if (await canLaunch(url)) {
-//       await launch(url, forceSafariVC: true, forceWebView: true);
-//     } else {
-//       throw 'Could not launch $url';
-//     }
 
 Widget mainSection = Column(
   children: [
@@ -89,8 +87,7 @@ Widget mainSection = Column(
                           .toString(),
                     });
                   },
-                  //returns a list tile with the title formmatted.
-
+                  //when the user taps on a podcast, it will open a new page and allow the user to click a
                   title: Text(
                     'Featured Article: \n' +
                         wppost['title']['rendered']
@@ -158,16 +155,11 @@ Widget mainSection = Column(
                   onTap: () {
                     //when the user taps on an article, it will open a new page with the article's content.
                     Navigator.of(context, rootNavigator: true)
-                        .pushNamed('/Article', arguments: {
-                      'title': titleurl
-                          .replaceAll('&#8216;', '\'')
-                          .replaceAll('&#8217;', '\'')
-                          .replaceAll('&#8212;', '-')
-                          .replaceAll('&#038;', '&')
-                          .replaceAll('&#8220;', '“')
-                          .replaceAll('&#8221;', '”')
-                          .toString(),
-                      'content': titleurl.toString(), //changed
+                        .pushNamed('/PodcastArguments', arguments: {
+                      "title": snapshot.data[0]["title"].toString(),
+                      "url_link": snapshot.data[0]["playback_url"].toString(),
+                      "image_url":
+                          snapshot.data[0]["image_original_url"].toString(),
                     });
                   },
                   //returns a list tile with the title formmatted.

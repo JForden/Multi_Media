@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import "toolbar.dart"; //put your file here
 import "articles.dart";
 import "home.dart";
+import "podcastPage.dart";
 
 void main() => runApp(MyApp());
 
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       routes: {
         ExtractArticleData.routeName: (context) => const ExtractArticleData(),
         '/Article': (context) => const newPageData(),
+        ExtractPodcastData.routeName: (context) => const ExtractPodcastData(),
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
