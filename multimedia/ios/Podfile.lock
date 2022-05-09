@@ -1,6 +1,12 @@
 PODS:
+  - audio_session (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_radio_player (0.0.1):
+    - Flutter
+  - just_audio (0.0.1):
+    - Flutter
+  - path_provider_ios (0.0.1):
     - Flutter
   - url_launcher_ios (0.0.1):
     - Flutter
@@ -12,18 +18,27 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - Flutter (from `Flutter`)
   - flutter_radio_player (from `.symlinks/plugins/flutter_radio_player/ios`)
+  - just_audio (from `.symlinks/plugins/just_audio/ios`)
+  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
   - wakelock (from `.symlinks/plugins/wakelock/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
 EXTERNAL SOURCES:
+  audio_session:
+    :path: ".symlinks/plugins/audio_session/ios"
   Flutter:
     :path: Flutter
   flutter_radio_player:
     :path: ".symlinks/plugins/flutter_radio_player/ios"
+  just_audio:
+    :path: ".symlinks/plugins/just_audio/ios"
+  path_provider_ios:
+    :path: ".symlinks/plugins/path_provider_ios/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   video_player:
@@ -34,8 +49,11 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
+  audio_session: 4f3e461722055d21515cf3261b64c973c062f345
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_radio_player: 36b1e6d075fdf47b0aae3b2e8a5db3327bef88b3
+  just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
+  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
   video_player: 7e9dad9437c238a97648819f6dd443c8854cf0c7
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f

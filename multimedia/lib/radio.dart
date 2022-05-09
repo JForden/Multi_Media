@@ -20,7 +20,7 @@ class _RadioPageState extends State<RadioPage> {
     Widget titleSection(SongInfo currentSong) {
       return Container(
           padding:
-              const EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 0),
+              const EdgeInsets.only(left: 32, right: 32, top: 16, bottom: 0),
           child: Row(
             children: [
               Expanded(
@@ -72,7 +72,7 @@ class _RadioPageState extends State<RadioPage> {
       }
 
       return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _buildButtonColumn(
             Theme.of(context).primaryColor,
@@ -137,12 +137,14 @@ class _RadioPageState extends State<RadioPage> {
                                     EdgeInsets.only(top: deviceHeight * 0.02),
                                 child: FadeInImage.assetNetwork(
                                   image: currentSong.imageUrl,
-                                  placeholder: 'assets/images/loading.gif',
+                                  placeholder:
+                                      'assets/images/UnknownAlbumArt.gif',
                                   imageErrorBuilder:
                                       (context, error, stackTrace) {
                                     //if the image fails to load, it will display a placeholder image.
                                     return Image.asset(
-                                        'assets/images/loading.gif');
+                                        'assets/images/UnknownAlbumArt.gif',
+                                        scale: 0.5);
                                   },
                                   width: 200,
                                   height: 200,
@@ -152,7 +154,7 @@ class _RadioPageState extends State<RadioPage> {
                                 padding: EdgeInsets.all(16),
                                 child: playButtonSection),
                             buttonSection(currentSong),
-                            textSection(currentSong),
+                            //textSection(currentSong),
                           ],
                         );
                       } else if (snapshot.hasError) {
@@ -168,24 +170,30 @@ class _RadioPageState extends State<RadioPage> {
   InkWell _buildButtonColumn(
       Color color, IconData icon, String label, String link) {
     return InkWell(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: color),
-            Container(
-              margin: const EdgeInsets.only(top: 8),
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: color,
-                ),
-              ),
-            ),
-          ],
-        ),
+        splashColor: Theme.of(context).backgroundColor,
+        child: Container(
+            //decoration: BoxDecoration(border: Border.all()),
+            width: 120,
+            child: Padding(
+                padding: EdgeInsets.only(left: 16, right: 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(icon, color: color),
+                    Container(
+                      margin: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        label,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: color,
+                        ),
+                      ),
+                    ),
+                  ],
+                ))),
         onTap: () => launch(link));
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import "main.dart";
 import 'package:flutter_radio_player/flutter_radio_player.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PodcastData {
@@ -72,7 +73,8 @@ class _ExtractPodcastDataState extends State<ExtractPodcastData> {
     Widget playButtonSection = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildPlayButton(Theme.of(context).primaryColor, playIcon, "Play"),
+        _buildPlayButton(
+            Theme.of(context).primaryColor, playIcon, "Play", podcastData),
       ],
     );
 
@@ -80,34 +82,44 @@ class _ExtractPodcastDataState extends State<ExtractPodcastData> {
     return MaterialApp(
         title: 'Podcast Page',
         home: Scaffold(
+            appBar: AppBar(
+              title: Row(children: [
+                //BackButton(color: Theme.of(context).backgroundColor),
+                //const SizedBox(width: 50),
+                Text("Podcasts",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).primaryTextTheme.titleLarge)
+              ]),
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
             body: Center(
                 child: Column(
-          children: [
-            Padding(
-                padding: EdgeInsets.only(top: deviceHeight * 0.05),
-                child: FadeInImage.assetNetwork(
-                  image: podcastData.image_URL,
-                  placeholder: 'assets/images/loading.gif',
-                  imageErrorBuilder: (context, error, stackTrace) {
-                    //if the image fails to load, it will display a placeholder image.
-                    return Image.asset('assets/images/loading.gif');
-                  },
-                  width: 200,
-                  height: 200,
-                )),
-            titleSection(podcastData),
-            playButtonSection,
-          ],
-        ))));
+              children: [
+                Padding(
+                    padding: EdgeInsets.only(top: deviceHeight * 0.05),
+                    child: FadeInImage.assetNetwork(
+                      image: podcastData.image_URL,
+                      placeholder: 'assets/images/loading.gif',
+                      imageErrorBuilder: (context, error, stackTrace) {
+                        //if the image fails to load, it will display a placeholder image.
+                        return Image.asset('assets/images/loading.gif');
+                      },
+                      width: 200,
+                      height: 200,
+                    )),
+                titleSection(podcastData),
+                playButtonSection,
+              ],
+            ))));
   }
 
-  InkWell _buildPlayButton(Color color, IconData icon, String text) {
+  InkWell _buildPlayButton(
+      Color color, IconData icon, String text, PodcastData podcastData) {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
 
     FlutterRadioPlayer newRadio = FlutterRadioPlayer(); //just audio player
-    newRadio.init("Radio", "Live",
-        "https://wyms.streamguys1.com/live?platform=88nine", "false");
+    newRadio.init("Radio", "Live", podcastData.url_link, "false");
     if (playing) {
       newRadio.play();
     } else {
